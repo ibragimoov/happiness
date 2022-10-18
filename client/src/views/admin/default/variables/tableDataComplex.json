@@ -1,26 +1,22 @@
 [
-  {
-    "name":"Horizon UI PRO",
-    "status": "Approved",
-    "date": "18 Apr 2022",
-    "progress": 75.5  
-  },
-  {
-    "name":"Horizon UI Free",
-    "status": "Disable",
-    "date": "18 Apr 2022",
-    "progress": 25.5  
-  },
-  {
-    "name":"Marketplace",
-    "status": "Error",
-    "date": "20 May 2021",
-    "progress": 90  
-  },
-  {
-    "name":"Weekly Updates",
-    "status": "Approved",
-    "date": "12 Jul 2021",
-    "progress": 50.5  
-  }
+    {
+        "name": "Самосознание",
+        "date": "18 Апр 2022",
+        "progress": 75.5
+    },
+    {
+        "name": "Мнемотехники",
+        "date": "18 Апр 2022",
+        "progress": 25.5
+    },
+    {
+        "name": "Русский язык",
+        "date": "20 Мая 2021",
+        "progress": 90
+    },
+    {
+        "name": "Критическое мышление",
+        "date": "12 Июля 2021",
+        "progress": 50.5
+    }
 ]

@@ -7,6 +7,7 @@ import {
     MdLock,
     MdOutlineShoppingCart,
 } from "react-icons/md";
+import { ImBook } from "react-icons/im";
 
 // Admin Imports
 import MainDashboard from "views/admin/default";
@@ -15,6 +16,8 @@ import Profile from "views/admin/profile";
 
 // Auth Imports
 import SignInCentered from "views/auth/signIn";
+import SignUp from "views/auth/signUp";
+import MyCourses from "views/admin/myCourses";
 
 const routes = [
     {
@@ -25,9 +28,9 @@ const routes = [
         component: MainDashboard,
     },
     {
-        name: "Мои курсы",
+        name: "Каталог",
         layout: "/admin",
-        path: "/nft-marketplace",
+        path: "/catalog",
         icon: (
             <Icon
                 as={MdOutlineShoppingCart}
@@ -40,6 +43,14 @@ const routes = [
         secondary: true,
     },
     {
+        name: "Мои курсы",
+        layout: "/admin",
+        path: "/my-courses",
+        icon: <Icon as={ImBook} width="20px" height="20px" color="inherit" />,
+        component: MyCourses,
+        secondary: true,
+    },
+    {
         name: "Настройки",
         layout: "/admin",
         path: "/profile",
@@ -47,11 +58,18 @@ const routes = [
         component: Profile,
     },
     {
-        name: "Sign In",
+        name: "Вход",
         layout: "/auth",
-        path: "/sign-in",
+        path: "/signIn",
         icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
         component: SignInCentered,
+    },
+    {
+        name: "Регистрация",
+        layout: "/auth",
+        path: "/signUp",
+        icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+        component: SignUp,
     },
 ];
 

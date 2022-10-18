@@ -7,23 +7,24 @@ import { CreateUserDto } from "./dto/create-user.dto";
 @Injectable()
 export class UserService {
     async createUser(dto: CreateUserDto) {
-        const candidate = await this.getUserByEmail(dto.email);
+        // const candidate = await this.getUserByEmail(dto.email);
 
-        if (candidate) {
-            throw new HttpException(
-                "Пользователь с таким email уже зарегистрирован",
-                HttpStatus.BAD_REQUEST
-            );
-        }
+        // if (candidate) {
+        //     throw new HttpException(
+        //         "Пользователь с таким email уже зарегистрирован",
+        //         HttpStatus.BAD_REQUEST
+        //     );
+        // }
 
-        const user = await this.userRepository.create(dto);
+        const user = this.userRepository.save(dto);
         return user;
     }
 
     async getUserByEmail(email: string) {
         const user = await this.userRepository.findOne({
-            where: { email },
+            where: { email: email },
         });
+
         return user;
     }
 

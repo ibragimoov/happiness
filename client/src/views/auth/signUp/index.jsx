@@ -66,7 +66,7 @@ function SignIn() {
             >
                 <Box me="auto">
                     <Heading color={textColor} fontSize="36px" mb="10px">
-                        Вход
+                        Регистрация
                     </Heading>
                     <Text
                         mb="36px"
@@ -192,7 +192,7 @@ function SignIn() {
                                     Keep me logged in
                                 </FormLabel>
                             </FormControl> */}
-                            <NavLink to="/auth/forgot-password">
+                            {/* <NavLink to="/auth/forgot-password">
                                 <Text
                                     color={textColorBrand}
                                     fontSize="sm"
@@ -201,7 +201,7 @@ function SignIn() {
                                 >
                                     Забыли пароль?
                                 </Text>
-                            </NavLink>
+                            </NavLink> */}
                         </Flex>
                         <Button
                             fontSize="sm"
@@ -212,7 +212,7 @@ function SignIn() {
                             mb="24px"
                             onClick={handleSignIn}
                         >
-                            Войти
+                            Зарегистрироваться
                         </Button>
                     </FormControl>
                     <Flex
@@ -227,15 +227,15 @@ function SignIn() {
                             fontWeight="400"
                             fontSize="14px"
                         >
-                            Еще не зарегистрированы?
-                            <NavLink to="/auth/signup">
+                            Уже зарегистрированы?
+                            <NavLink to="/auth/signIn">
                                 <Text
                                     color={textColorBrand}
                                     as="span"
                                     ms="5px"
                                     fontWeight="500"
                                 >
-                                    Создать аккаунт
+                                    Войти в аккаунт
                                 </Text>
                             </NavLink>
                         </Text>

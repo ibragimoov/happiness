@@ -6,6 +6,8 @@ import { AuthModule } from "./auth/auth.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "./models/user.model";
 import { ConfigModule } from "@nestjs/config";
+import { RolesModule } from "./roles/roles.module";
+import { Roles } from "./models/role.model";
 
 @Module({
     imports: [
@@ -19,14 +21,13 @@ import { ConfigModule } from "@nestjs/config";
             username: process.env.DB_USERNAME,
             password: process.env.DB_PASSWORD,
             database: process.env.DB_NAME,
-            entities: [User],
-            synchronize: true,
+            entities: [User, Roles],
+            autoLoadEntities: true,
         }),
         UserModule,
         CourseModule,
         AuthModule,
+        RolesModule,
     ],
-    controllers: [],
-    providers: [],
 })
 export class AppModule {}
