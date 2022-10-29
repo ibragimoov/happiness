@@ -260,52 +260,52 @@ export default function Marketplace() {
                                 fontSize="xl"
                                 fontWeight="600"
                             >
-                                History
+                                История
                             </Text>
-                            <Button variant="action">See all</Button>
+                            <Button variant="action">Посмотреть все</Button>
                         </Flex>
 
                         <HistoryItem
-                            name="Colorful Heaven"
-                            author="By Mark Benjamin"
-                            date="30s ago"
+                            name="Мнемотехника"
+                            author="Марк Бенжамин"
+                            date="30с назад"
                             image={Nft5}
-                            price="0.91 ETH"
+                            price="430 РУБ"
                         />
                         <HistoryItem
-                            name="Abstract Colors"
-                            author="By Esthera Jackson"
-                            date="58s ago"
+                            name="Коммуникативность"
+                            author="Таир Сулейманов"
+                            date="58с назад"
                             image={Nft1}
-                            price="0.91 ETH"
+                            price="359 РУБ"
                         />
                         <HistoryItem
-                            name="ETH AI Brain"
-                            author="By Nick Wilson"
-                            date="1m ago"
+                            name="Самопознание"
+                            author="Арсен Аджимамбетов"
+                            date="1м назад"
                             image={Nft2}
-                            price="0.91 ETH"
+                            price="359 РУБ"
                         />
                         <HistoryItem
-                            name="Swipe Circles"
-                            author="By Peter Will"
-                            date="1m ago"
+                            name="Сам себе психолог"
+                            author="Арсен Аджмимамбетов"
+                            date="1м назад"
                             image={Nft4}
-                            price="0.91 ETH"
+                            price="249 РУБ"
                         />
                         <HistoryItem
-                            name="Mesh Gradients "
-                            author="By Will Smith"
-                            date="2m ago"
+                            name="Сторителлинг"
+                            author="Эльдар Эмиров"
+                            date="2м назад"
                             image={Nft3}
-                            price="0.91 ETH"
+                            price="910 РУБ"
                         />
                         <HistoryItem
-                            name="3D Cubes Art"
-                            author="By Manny Gates"
-                            date="3m ago"
+                            name="Профайлинг"
+                            author="Эльдар Эмиров"
+                            date="3м назад"
                             image={Nft6}
-                            price="0.91 ETH"
+                            price="549 РУБ"
                         />
                     </Card>
                 </Flex>

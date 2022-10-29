@@ -25,41 +25,22 @@ import { HappinessLogo } from "components/icons/Icons";
 
 const NAV_ITEMS = [
     {
-        label: "Inspiration",
+        label: "Все курсы",
         children: [
             {
-                label: "Explore Design Work",
-                subLabel: "Trending Design to inspire you",
+                label: "Мнемотехника",
+                subLabel: "Как запоминать с помощью мнемотехники?",
                 href: "#",
             },
             {
-                label: "New & Noteworthy",
-                subLabel: "Up-and-coming Designers",
+                label: "Коммуникативность",
+                subLabel: "Найди подход к общению с любым человеком",
                 href: "#",
             },
         ],
     },
     {
-        label: "Find Work",
-        children: [
-            {
-                label: "Job Board",
-                subLabel: "Find your dream design job",
-                href: "#",
-            },
-            {
-                label: "Freelance Projects",
-                subLabel: "An exclusive list for contract work",
-                href: "#",
-            },
-        ],
-    },
-    {
-        label: "Learn Design",
-        href: "#",
-    },
-    {
-        label: "Hire Designers",
+        label: "О проекте",
         href: "#",
     },
 ];
@@ -126,17 +107,19 @@ const Navbar = () => {
                 >
                     <Button
                         as={"a"}
-                        fontSize={"sm"}
+                        fontSize={"m"}
                         fontWeight={400}
                         variant={"link"}
                         href={"#/auth/signIn"}
                     >
-                        Sign In
+                        Вход
                     </Button>
                     <Button
                         as={"a"}
                         display={{ base: "none", md: "inline-flex" }}
-                        fontSize={"sm"}
+                        fontSize={"m"}
+                        alignItems="center"
+                        justifyContent={"center"}
                         fontWeight={600}
                         color={"white"}
                         bg={"blue.400"}
@@ -145,7 +128,7 @@ const Navbar = () => {
                             bg: "blue.300",
                         }}
                     >
-                        Sign Up
+                        Загеристрироваться
                     </Button>
                 </Stack>
             </Flex>
@@ -171,7 +154,7 @@ const DesktopNav = () => {
                             <Link
                                 p={2}
                                 href={navItem.href ?? "#"}
-                                fontSize={"sm"}
+                                fontSize={"m"}
                                 fontWeight={500}
                                 color={linkColor}
                                 _hover={{
