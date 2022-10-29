@@ -32,9 +32,8 @@ import Avatar3 from "assets/img/avatars/avatar3.png";
 import Avatar4 from "assets/img/avatars/avatar4.png";
 import tableDataTopCreators from "views/admin/marketplace/variables/tableDataTopCreators.json";
 import { tableColumnsTopCreators } from "views/admin/marketplace/variables/tableColumnsTopCreators";
-import { NavLink } from "react-router-dom";
 
-export default function MyCourses() {
+export default function Course() {
     // Chakra Color Mode
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const textColorBrand = useColorModeValue("brand.500", "white");
@@ -140,25 +139,23 @@ export default function MyCourses() {
                                 currentbid="0.91 ETH"
                                 download="#"
                             />
-                            <NavLink to={`/admin/course/${1}`}>
-                                <NFT
-                                    name="Сторителлинг"
-                                    author="От Кристины Безбородовой"
-                                    bidders={[
-                                        Avatar1,
-                                        Avatar2,
-                                        Avatar3,
-                                        Avatar4,
-                                        Avatar1,
-                                        Avatar1,
-                                        Avatar1,
-                                        Avatar1,
-                                    ]}
-                                    image={Nft5}
-                                    currentbid="0.91 ETH"
-                                    download="#"
-                                />
-                            </NavLink>
+                            <NFT
+                                name="Сторителлинг"
+                                author="От Кристины Безбородовой"
+                                bidders={[
+                                    Avatar1,
+                                    Avatar2,
+                                    Avatar3,
+                                    Avatar4,
+                                    Avatar1,
+                                    Avatar1,
+                                    Avatar1,
+                                    Avatar1,
+                                ]}
+                                image={Nft5}
+                                currentbid="0.91 ETH"
+                                download="#"
+                            />
                             <NFT
                                 name="Профайлинг"
                                 author="От Кристины Безбородовой"

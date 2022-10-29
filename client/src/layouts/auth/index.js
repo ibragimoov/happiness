@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Routes, Switch } from "react-router-dom";
 import routes from "routes.js";
 
 // Chakra imports

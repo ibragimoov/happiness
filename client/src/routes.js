@@ -18,8 +18,16 @@ import Profile from "views/admin/profile";
 import SignInCentered from "views/auth/signIn";
 import SignUp from "views/auth/signUp";
 import MyCourses from "views/admin/myCourses";
+import Home from "views/home/default";
 
 const routes = [
+    {
+        name: "Дом",
+        layout: "/home",
+        path: "/default",
+        icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+        component: Home,
+    },
     {
         name: "Главная",
         layout: "/admin",

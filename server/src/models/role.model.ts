@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 import { User } from "./user.model";
 
-@Entity({ name: "role", synchronize: false })
+@Entity({ name: "role" })
 export class Roles {
     @PrimaryGeneratedColumn()
     id: number;
@@ -19,6 +19,5 @@ export class Roles {
     description: string;
 
     @ManyToMany(() => User, (user) => user.roles)
-    @JoinTable()
     users: User[];
 }

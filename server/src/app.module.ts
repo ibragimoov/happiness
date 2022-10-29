@@ -22,6 +22,7 @@ import { Roles } from "./models/role.model";
             password: process.env.DB_PASSWORD,
             database: process.env.DB_NAME,
             entities: [User, Roles],
+            synchronize: true,
             autoLoadEntities: true,
         }),
         UserModule,
