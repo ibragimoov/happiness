@@ -41,6 +41,22 @@ export class AuthService {
         return this.generateToken(user);
     }
 
+    async me(cookie: any) {
+        if (!cookie) {
+            throw new UnauthorizedException();
+        }
+
+        const data = await this.jwtService.verifyAsync(cookie);
+
+        if (!data) {
+            throw new UnauthorizedException();
+        }
+
+        const user = await this.userService.getUserByEmail(data?.email);
+
+        return user;
+    }
+
     private async generateToken(user: User) {
         const payload = { email: user.email, id: user.id };
         return {

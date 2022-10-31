@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 // Chakra imports
 import {
     Box,
@@ -25,6 +25,8 @@ import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
 
+import axios from "../../../utils/axios";
+
 function SignIn() {
     // Chakra color mode
     const textColor = useColorModeValue("navy.700", "white");
@@ -43,11 +45,27 @@ function SignIn() {
         { bg: "whiteAlpha.200" }
     );
     const [show, setShow] = React.useState(false);
+
+    const [isAuth, setIsAuth] = React.useState(false);
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
+
     const handleClick = () => setShow(!show);
 
-    const handleSignIn = () => {
-        alert("sign in!");
+    const handleSignUp = async (e) => {
+        e.preventDefault();
+
+        await axios.post("/auth/registration", {
+            email,
+            password,
+        });
+
+        setIsAuth(true);
     };
+
+    if (isAuth) {
+        return <Redirect to={"#/admin/default"} />;
+    }
 
     return (
         <DefaultAuth illustrationBackground={illustration} image={illustration}>
@@ -134,6 +152,10 @@ function SignIn() {
                             mb="24px"
                             fontWeight="500"
                             size="lg"
+                            value={email}
+                            onChange={(e) => {
+                                setEmail(e.target.value);
+                            }}
                         />
                         <FormLabel
                             ms="4px"
@@ -153,6 +175,10 @@ function SignIn() {
                                 size="lg"
                                 type={show ? "text" : "password"}
                                 variant="auth"
+                                value={password}
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                }}
                             />
                             <InputRightElement
                                 display="flex"
@@ -210,7 +236,7 @@ function SignIn() {
                             w="100%"
                             h="50"
                             mb="24px"
-                            onClick={handleSignIn}
+                            onClick={handleSignUp}
                         >
                             Зарегистрироваться
                         </Button>
