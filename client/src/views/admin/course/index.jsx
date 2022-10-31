@@ -33,10 +33,16 @@ import Avatar4 from "assets/img/avatars/avatar4.png";
 import tableDataTopCreators from "views/admin/marketplace/variables/tableDataTopCreators.json";
 import { tableColumnsTopCreators } from "views/admin/marketplace/variables/tableColumnsTopCreators";
 
+import { useLocation } from "react-router-dom";
+
 export default function Course() {
     // Chakra Color Mode
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const textColorBrand = useColorModeValue("brand.500", "white");
+
+    const location = useLocation();
+    const id = location.pathname.replace(/[^0-9]/g, "");
+
     return (
         <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
             {/* Main Fields */}
@@ -69,40 +75,6 @@ export default function Course() {
                                     Avatar1,
                                 ]}
                                 image={Nft1}
-                                currentbid="0.91 ETH"
-                                download="#"
-                            />
-                            <NFT
-                                name="Самопознание"
-                                author="От Эмирова Эльдара"
-                                bidders={[
-                                    Avatar1,
-                                    Avatar2,
-                                    Avatar3,
-                                    Avatar4,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                ]}
-                                image={Nft2}
-                                currentbid="0.91 ETH"
-                                download="#"
-                            />
-                            <NFT
-                                name="Психическая саморегуляция"
-                                author="От Усние Бекировой"
-                                bidders={[
-                                    Avatar1,
-                                    Avatar2,
-                                    Avatar3,
-                                    Avatar4,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                ]}
-                                image={Nft3}
                                 currentbid="0.91 ETH"
                                 download="#"
                             />

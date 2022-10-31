@@ -19,6 +19,7 @@ import SignInCentered from "views/auth/signIn";
 import SignUp from "views/auth/signUp";
 import MyCourses from "views/admin/myCourses";
 import Home from "views/home/default";
+import Course from "views/admin/course";
 
 const routes = [
     {
@@ -56,6 +57,14 @@ const routes = [
         path: "/my-courses",
         icon: <Icon as={ImBook} width="20px" height="20px" color="inherit" />,
         component: MyCourses,
+        secondary: true,
+    },
+    {
+        name: "Курс",
+        layout: "/admin",
+        path: "/course",
+        icon: <Icon as={ImBook} width="20px" height="20px" color="inherit" />,
+        component: Course,
         secondary: true,
     },
     {

@@ -8,7 +8,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import theme from "theme/theme";
 import { ThemeEditorProvider } from "@hypertheme-editor/chakra-ui";
 import Home from "views/home/default";
-import Course from "./views/admin/course";
+import Course from "views/admin/course";
 
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
@@ -23,7 +23,6 @@ ReactDOM.render(
                         <Route path={`/course/:id`} component={Course} />
                         <Route path={`/auth`} component={AuthLayout} />
                         <Route path={`/admin`} component={AdminLayout} />
-                        {/* <Redirect from="/" to="/admin" component={AdminLayout} /> */}
                     </Switch>
                 </HashRouter>
             </ThemeEditorProvider>

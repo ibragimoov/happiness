@@ -28,6 +28,8 @@ export function SidebarLinks(props) {
         // if (isAuth) {
         //     routes = routes.filter((route) => route.layout !== "/auth");
         // }
+        routes = routes.filter((route) => route.name !== "Курс");
+
         return routes.map((route, index) => {
             if (route.category) {
                 return (
