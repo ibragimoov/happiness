@@ -52,7 +52,7 @@ export function SidebarLinks(props) {
                 );
             } else if (
                 route.layout === "/admin" ||
-                route.layout === "/auth" ||
+                // route.layout === "/auth" ||
                 route.layout === "/rtl"
             ) {
                 return (

@@ -1,25 +1,3 @@
-/*!
-  _   _  ___  ____  ___ ________  _   _   _   _ ___   
- | | | |/ _ \|  _ \|_ _|__  / _ \| \ | | | | | |_ _| 
- | |_| | | | | |_) || |  / / | | |  \| | | | | || | 
- |  _  | |_| |  _ < | | / /| |_| | |\  | | |_| || |
- |_| |_|\___/|_| \_\___/____\___/|_| \_|  \___/|___|
-                                                                                                                                                                                                                                                                                                                                       
-=========================================================
-* Horizon UI - v1.1.0
-=========================================================
-
-* Product Page: https://www.horizon-ui.com/
-* Copyright 2022 Horizon UI (https://www.horizon-ui.com/)
-
-* Designed and Coded by Simmmple
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
 // Chakra imports
 import { Box, Grid } from "@chakra-ui/react";
 
@@ -36,7 +14,19 @@ import banner from "assets/img/auth/banner.png";
 import avatar from "assets/img/avatars/avatar4.png";
 import React from "react";
 
+import axios from "../../../utils/axios";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserDetails } from "../../../redux/slices/user.slice";
+
 export default function Overview() {
+    const { userInfo, userToken } = useSelector((state) => state.user);
+    const { email } = userInfo;
+    const dispatch = useDispatch();
+
+    React.useEffect(() => {
+        dispatch(getUserDetails());
+    }, []);
+
     return (
         <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
             {/* Main Fields */}
@@ -55,12 +45,12 @@ export default function Overview() {
                 <Banner
                     gridArea="1 / 1 / 2 / 2"
                     banner={banner}
-                    avatar={avatar}
-                    name="Кристина Безбородова"
+                    // avatar={}
+                    name={`${userInfo.first_name} ${userInfo.last_name}`}
                     job="Блогер"
-                    posts="17"
-                    followers="9.7k"
-                    following="274"
+                    posts="0"
+                    followers="0"
+                    following="0"
                 />
                 {/* <Storage
                     gridArea={{ base: "2 / 1 / 3 / 2", lg: "1 / 2 / 2 / 3" }}

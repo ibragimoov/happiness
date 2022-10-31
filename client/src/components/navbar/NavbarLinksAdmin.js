@@ -26,6 +26,12 @@ import { MdNotificationsNone, MdInfoOutline } from "react-icons/md";
 import { FaEthereum } from "react-icons/fa";
 import routes from "routes.js";
 import { ThemeEditor } from "./ThemeEditor";
+
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/slices/user.slice";
+import axios from "../../utils/axios";
+import { Redirect } from "react-router-dom";
+
 export default function HeaderLinks(props) {
     const { secondary } = props;
     // Chakra Color Mode
@@ -48,6 +54,31 @@ export default function HeaderLinks(props) {
         "secondaryGray.500",
         "whiteAlpha.200"
     );
+
+    const Logout = async () => {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            withCredentials: true,
+        };
+
+        await axios.post("/auth/logout", config);
+    };
+
+    const dispatch = useDispatch();
+    const [isLog, setLog] = React.useState(false);
+    const { userInfo } = useSelector((state) => state.user);
+
+    const handleLogout = () => {
+        Logout();
+        setLog(true);
+    };
+
+    if (isLog) {
+        return <Redirect to="/" />;
+    }
+
     return (
         <Flex
             w={{ sm: "100%", md: "auto" }}
@@ -260,7 +291,7 @@ export default function HeaderLinks(props) {
                             fontWeight="700"
                             color={textColor}
                         >
-                            👋&nbsp; Hey, Adela
+                            👋&nbsp; Привет, {userInfo.first_name}
                         </Text>
                     </Flex>
                     <Flex flexDirection="column" p="10px">
@@ -270,16 +301,18 @@ export default function HeaderLinks(props) {
                             borderRadius="8px"
                             px="14px"
                         >
-                            <Text fontSize="sm">Profile Settings</Text>
+                            <Text as={"a"} href="#/admin/profile" fontSize="sm">
+                                Настройки аккаунта
+                            </Text>
                         </MenuItem>
-                        <MenuItem
-                            _hover={{ bg: "none" }}
-                            _focus={{ bg: "none" }}
-                            borderRadius="8px"
-                            px="14px"
-                        >
-                            <Text fontSize="sm">Newsletter Settings</Text>
-                        </MenuItem>
+                        {/* <MenuItem
+                                _hover={{ bg: "none" }}
+                                _focus={{ bg: "none" }}
+                                borderRadius="8px"
+                                px="14px"
+                            >
+                                <Text fontSize="sm">Newsletter Settings</Text>
+                            </MenuItem> */}
                         <MenuItem
                             _hover={{ bg: "none" }}
                             _focus={{ bg: "none" }}
@@ -287,7 +320,9 @@ export default function HeaderLinks(props) {
                             borderRadius="8px"
                             px="14px"
                         >
-                            <Text fontSize="sm">Log out</Text>
+                            <Text onClick={handleLogout} fontSize="sm">
+                                Log out
+                            </Text>
                         </MenuItem>
                     </Flex>
                 </MenuList>

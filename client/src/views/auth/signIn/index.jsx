@@ -26,6 +26,8 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
 
 import axios from "../../../utils/axios";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogin } from "../../../redux/slices/user.slice";
 
 function SignIn() {
     // Chakra color mode
@@ -46,36 +48,39 @@ function SignIn() {
     );
     const [show, setShow] = React.useState(false);
 
+    // data for login
     const [isAuth, setIsAuth] = React.useState(false);
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
 
+    // redux
+    const { loading, userInfo, error } = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+
     const handleClick = () => setShow(!show);
+
+    React.useEffect(() => {
+        if (userInfo) {
+            return <Redirect to="/admin/default" />;
+        }
+    }, [userInfo]);
 
     const handleSignIn = async (e) => {
         e.preventDefault();
 
-        await axios.post(
-            "/auth/login",
-            {
-                email,
-                password,
-            },
-            {
-                headers: { "Content-Type": "application/json" },
-                withCredentials: true,
-            }
-        );
-
-        // await fetch("http://localhost:5000/auth/login", {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json" },
-        //     credentials: "include",
-        //     body: JSON.stringify({
+        // await axios.post(
+        //     "/auth/login",
+        //     {
         //         email,
         //         password,
-        //     }),
-        // });
+        //     },
+        //     {
+        //         headers: { "Content-Type": "application/json" },
+        //         withCredentials: true,
+        //     }
+        // );
+
+        dispatch(userLogin({ email, password }));
 
         setIsAuth(true);
     };

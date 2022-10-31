@@ -34,10 +34,21 @@ import {
 import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
 import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
 
+import { useDispatch, useSelector } from "react-redux";
+import { getUserDetails } from "../../../redux/slices/user.slice";
+
 export default function UserReports() {
     // Chakra Color Mode
     const brandColor = useColorModeValue("brand.500", "white");
     const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
+
+    const { userInfo, userToken } = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+
+    React.useEffect(() => {
+        dispatch(getUserDetails());
+    }, []);
+
     return (
         <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
             <SimpleGrid

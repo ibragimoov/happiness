@@ -47,6 +47,7 @@ export class AuthService {
         }
 
         const data = await this.jwtService.verifyAsync(cookie);
+        console.log(data);
 
         if (!data) {
             throw new UnauthorizedException();
@@ -58,7 +59,13 @@ export class AuthService {
     }
 
     private async generateToken(user: User) {
-        const payload = { email: user.email, id: user.id };
+        const payload = {
+            email: user.email,
+            id: user.id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+        };
+
         return {
             token: this.jwtService.sign(payload),
         };

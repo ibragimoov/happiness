@@ -10,19 +10,24 @@ import { ThemeEditorProvider } from "@hypertheme-editor/chakra-ui";
 import Home from "views/home/default";
 import Course from "./views/admin/course";
 
+import { store } from "./redux/store";
+import { Provider } from "react-redux";
+
 ReactDOM.render(
-    <ChakraProvider theme={theme}>
-        <ThemeEditorProvider>
-            <HashRouter>
-                <Switch>
-                    <Route exact path={"/"} component={Home} />
-                    <Route path={`/course/:id`} component={Course} />
-                    <Route path={`/auth`} component={AuthLayout} />
-                    <Route path={`/admin`} component={AdminLayout} />
-                    {/* <Redirect from="/" to="/admin" component={AdminLayout} /> */}
-                </Switch>
-            </HashRouter>
-        </ThemeEditorProvider>
-    </ChakraProvider>,
+    <Provider store={store}>
+        <ChakraProvider theme={theme}>
+            <ThemeEditorProvider>
+                <HashRouter>
+                    <Switch>
+                        <Route exact path={"/"} component={Home} />
+                        <Route path={`/course/:id`} component={Course} />
+                        <Route path={`/auth`} component={AuthLayout} />
+                        <Route path={`/admin`} component={AdminLayout} />
+                        {/* <Redirect from="/" to="/admin" component={AdminLayout} /> */}
+                    </Switch>
+                </HashRouter>
+            </ThemeEditorProvider>
+        </ChakraProvider>
+    </Provider>,
     document.getElementById("root")
 );

@@ -26,6 +26,8 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
 
 import axios from "../../../utils/axios";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../../../redux/slices/user.slice";
 
 function SignIn() {
     // Chakra color mode
@@ -46,26 +48,37 @@ function SignIn() {
     );
     const [show, setShow] = React.useState(false);
 
+    // data for register
     const [isAuth, setIsAuth] = React.useState(false);
+    const [firstName, setFirstName] = React.useState("");
+    const [lastName, setLastName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
 
+    // redux
+    const { loading, userInfo, error, success } = useSelector(
+        (state) => state.user
+    );
+    const dispatch = useDispatch();
+
     const handleClick = () => setShow(!show);
+
+    React.useEffect(() => {
+        // redirect authenticated user to profile screen
+        if (userInfo) return <Redirect to={"#/admin/default"} />;
+    }, [userInfo, success]);
 
     const handleSignUp = async (e) => {
         e.preventDefault();
 
-        await axios.post("/auth/registration", {
-            email,
-            password,
-        });
+        dispatch(registerUser({ email, password, firstName, lastName }));
 
         setIsAuth(true);
     };
 
-    if (isAuth) {
-        return <Redirect to={"#/admin/default"} />;
-    }
+    // if (userInfo) {
+    //     return <Redirect to={"#/admin/default"} />;
+    // }
 
     return (
         <DefaultAuth illustrationBackground={illustration} image={illustration}>
@@ -132,6 +145,56 @@ function SignIn() {
                         <HSeparator />
                     </Flex>
                     <FormControl>
+                        <FormLabel
+                            display="flex"
+                            ms="4px"
+                            fontSize="sm"
+                            fontWeight="500"
+                            color={textColor}
+                            mb="8px"
+                        >
+                            Имя<Text color={brandStars}>*</Text>
+                        </FormLabel>
+                        <Input
+                            isRequired={true}
+                            variant="auth"
+                            fontSize="sm"
+                            ms={{ base: "0px", md: "0px" }}
+                            type="email"
+                            placeholder="mail@simmmple.com"
+                            mb="24px"
+                            fontWeight="500"
+                            size="lg"
+                            value={firstName}
+                            onChange={(e) => {
+                                setFirstName(e.target.value);
+                            }}
+                        />
+                        <FormLabel
+                            display="flex"
+                            ms="4px"
+                            fontSize="sm"
+                            fontWeight="500"
+                            color={textColor}
+                            mb="8px"
+                        >
+                            Фамилия<Text color={brandStars}>*</Text>
+                        </FormLabel>
+                        <Input
+                            isRequired={true}
+                            variant="auth"
+                            fontSize="sm"
+                            ms={{ base: "0px", md: "0px" }}
+                            type="email"
+                            placeholder="mail@simmmple.com"
+                            mb="24px"
+                            fontWeight="500"
+                            size="lg"
+                            value={lastName}
+                            onChange={(e) => {
+                                setLastName(e.target.value);
+                            }}
+                        />
                         <FormLabel
                             display="flex"
                             ms="4px"
