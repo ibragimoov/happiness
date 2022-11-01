@@ -80,7 +80,7 @@ const CreateCourse = () => {
             <Box
                 backgroundColor={"white"}
                 borderWidth="1px"
-                rounded="lg"
+                rounded="30px"
                 shadow="1px 1px 3px rgba(0,0,0,0.3)"
                 maxWidth={800}
                 p={6}

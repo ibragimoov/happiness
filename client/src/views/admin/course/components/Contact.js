@@ -11,6 +11,10 @@ import {
 } from "@chakra-ui/react";
 
 export default function Contact() {
+    const handleSub = () => {
+        alert("Вы купили курс");
+    };
+
     return (
         <Flex
             id="buy"
@@ -38,7 +42,7 @@ export default function Contact() {
                         fontSize={"3xl"}
                         color={useColorModeValue("gray.800", "gray.200")}
                     >
-                        Подписаться
+                        Приобрести курс
                     </Heading>
                     <Text fontSize={"lg"} color={"gray.500"}>
                         Подписывайтесь, пригодиться!)
@@ -56,8 +60,9 @@ export default function Contact() {
                         flex={"1 0 auto"}
                         _hover={{ bg: "blue.500" }}
                         _focus={{ bg: "blue.500" }}
+                        onClick={handleSub}
                     >
-                        Купить
+                        Подписаться
                     </Button>
                 </Stack>
             </Stack>

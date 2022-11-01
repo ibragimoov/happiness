@@ -51,7 +51,7 @@ function AuthIllustration(props) {
                             color="secondaryGray.600"
                         />
                         <Text ms="0px" fontSize="sm" color="secondaryGray.600">
-                            Back to Simmmple
+                            Назад в меню
                         </Text>
                     </Flex>
                 </NavLink>

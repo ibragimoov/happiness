@@ -1,9 +1,14 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import {
+    BadRequestException,
+    Injectable,
+    UnauthorizedException,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Chapters } from "src/entities/course-chapter.entity";
 import { Course } from "src/entities/course.entity";
 import { Enrollment } from "src/entities/enrollment.entity";
 import { User } from "src/entities/user.entity";
+import { CreateUserDto } from "src/user/dto/create-user.dto";
 import { Repository } from "typeorm";
 import { CreateCourseDto } from "./dto/create-course.dto";
 
@@ -22,8 +27,10 @@ export class CourseService {
         return await this.courseRepository.find();
     }
 
-    async getOne(id: any) {
-        const course = await this.courseRepository.find({ where: { id: id } });
+    async getOne(id: number) {
+        const course = await this.courseRepository.findOne({
+            where: { id: id },
+        });
 
         if (!course) {
             throw new BadRequestException({ message: "Курс не найден" });
@@ -79,6 +86,41 @@ export class CourseService {
 
         return {
             message: "update success",
+        };
+    }
+
+    async ownCourse(user: CreateUserDto, id: number) {
+        const candidate = await this.userRepository.findOne({
+            where: { email: user.email },
+        });
+
+        if (!candidate) {
+            throw new UnauthorizedException();
+        }
+
+        const course = await this.getOne(id);
+
+        const enroll_candidate = await this.enrollmentRepository.findOne({
+            where: {
+                user: candidate,
+                course: course,
+            },
+        });
+
+        if (enroll_candidate) {
+            throw new BadRequestException("Курс уже приобретен");
+        }
+
+        const enroll = new Enrollment();
+
+        enroll.course = course;
+        enroll.user = candidate;
+        enroll.enrollment_date = new Date();
+
+        await this.enrollmentRepository.save(enroll);
+
+        return {
+            message: "user bought course!",
         };
     }
 }

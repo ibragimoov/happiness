@@ -40,6 +40,8 @@ import axios from "../../../utils/axios";
 import Statistics from "./components/Statistics";
 import Contact from "./components/Contact";
 
+import { useSelector } from "react-redux";
+
 export default function Course() {
     // Chakra Color Mode
     const textColor = useColorModeValue("secondaryGray.900", "white");
@@ -50,6 +52,10 @@ export default function Course() {
 
     const [courseInfo, setCourseInfo] = React.useState({});
 
+    const { success, loading, userInfo, error } = useSelector(
+        (state) => state.user
+    );
+
     const getOneCourse = async () => {
         const config = {
             headers: { "Content-Type": "application/json" },
@@ -57,12 +63,25 @@ export default function Course() {
         };
 
         const { data } = await axios.get(`/course/${id}`, config);
-        setCourseInfo(data[0]);
+        setCourseInfo(data);
     };
+
+    const ownCourse = async () => {
+        const config = {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+        };
+
+        await axios.post(`/course/subscription/${id}`, userInfo, config);
+    };
+
+    const handleSub = () => {};
 
     React.useEffect(() => {
         getOneCourse();
     }, []);
+
+    // console.log(courseInfo);
 
     return (
         <Container maxW={"3xl"}>
@@ -79,14 +98,14 @@ export default function Course() {
                     fontSize={{ base: "3xl", sm: "4xl", md: "6xl" }}
                     lineHeight={"110%"}
                 >
-                    {courseInfo.title}
+                    {courseInfo?.title}
                     <br />
                     <Text
                         fontSize={{ base: "3xl", sm: "4xl", md: "4xl" }}
                         as={"span"}
                         color={"blue.400"}
                     >
-                        {courseInfo.brief}
+                        {courseInfo?.brief}
                     </Text>
                 </Heading>
                 <Text color={"gray.500"} maxW={"3xl"}>
@@ -102,6 +121,7 @@ export default function Course() {
                         colorScheme={"blue"}
                         bg={"blue.400"}
                         _hover={{ bg: "blue.500" }}
+                        onClick={ownCourse}
                     >
                         Подписаться
                     </Button>

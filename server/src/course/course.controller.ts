@@ -7,6 +7,7 @@ import {
     Post,
     Put,
 } from "@nestjs/common";
+import { CreateUserDto } from "src/user/dto/create-user.dto";
 import { CourseService } from "./course.service";
 import { CreateCourseDto } from "./dto/create-course.dto";
 
@@ -27,6 +28,11 @@ export class CourseController {
     @Post()
     createCourse(@Body() dto: CreateCourseDto) {
         return this.courseService.create(dto);
+    }
+
+    @Post("/subscription/:id")
+    ownCourse(@Body() user: CreateUserDto, @Param() id: number) {
+        return this.courseService.ownCourse(user, id);
     }
 
     @Put(":id")

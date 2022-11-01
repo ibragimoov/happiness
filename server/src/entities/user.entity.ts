@@ -22,7 +22,7 @@ export class User {
     @Column({ nullable: true })
     last_name: string;
 
-    @Column({unique: true})
+    @Column({ unique: true })
     email: string;
 
     @Column()
@@ -32,8 +32,8 @@ export class User {
     @JoinTable({ name: "user-role" })
     roles: Roles[];
 
-    @OneToMany(() => Course, (course) => course.user)
-    ownCourses: Course[];
+    // @OneToMany(() => Course, (course) => course.user)
+    // ownCourses: Course[];
 
     @OneToMany(() => Enrollment, (enrollment) => enrollment.user)
     userToCourses: Enrollment[];

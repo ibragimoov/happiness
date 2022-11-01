@@ -128,6 +128,7 @@ const userSlice = createSlice({
             state.error = null;
         },
         [userLogin.fulfilled]: (state, { payload }) => {
+            state.success = true;
             state.loading = false;
             state.userInfo = payload;
             state.userToken = payload.userToken;
