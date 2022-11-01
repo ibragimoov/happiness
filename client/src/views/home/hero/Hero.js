@@ -63,7 +63,7 @@ const Hero = () => {
                     >
                         <Button
                             as={"a"}
-                            href={"#/admin/default"}
+                            href={"#/auth/signUp"}
                             rounded={"full"}
                             size={"lg"}
                             fontWeight={"normal"}

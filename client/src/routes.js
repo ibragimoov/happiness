@@ -9,6 +9,8 @@ import {
 } from "react-icons/md";
 import { ImBook } from "react-icons/im";
 
+import { FiPlusSquare } from "react-icons/fi";
+
 // Admin Imports
 import MainDashboard from "views/admin/default";
 import NFTMarketplace from "views/admin/marketplace";
@@ -20,6 +22,7 @@ import SignUp from "views/auth/signUp";
 import MyCourses from "views/admin/myCourses";
 import Home from "views/home/default";
 import Course from "views/admin/course";
+import CreateCourse from "views/admin/create-course/CreateCourse";
 
 const routes = [
     {
@@ -57,6 +60,21 @@ const routes = [
         path: "/my-courses",
         icon: <Icon as={ImBook} width="20px" height="20px" color="inherit" />,
         component: MyCourses,
+        secondary: true,
+    },
+    {
+        name: "Создание курса",
+        layout: "/admin",
+        path: "/create-course",
+        icon: (
+            <Icon
+                as={FiPlusSquare}
+                width="20px"
+                height="20px"
+                color="inherit"
+            />
+        ),
+        component: CreateCourse,
         secondary: true,
     },
     {

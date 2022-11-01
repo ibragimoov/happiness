@@ -68,24 +68,12 @@ function SignIn() {
     const handleSignIn = async (e) => {
         e.preventDefault();
 
-        // await axios.post(
-        //     "/auth/login",
-        //     {
-        //         email,
-        //         password,
-        //     },
-        //     {
-        //         headers: { "Content-Type": "application/json" },
-        //         withCredentials: true,
-        //     }
-        // );
-
         dispatch(userLogin({ email, password }));
 
         setIsAuth(true);
     };
 
-    if (isAuth) {
+    if (error == null) {
         return <Redirect to="/admin/default" />;
     }
 
@@ -153,6 +141,11 @@ function SignIn() {
                         </Text>
                         <HSeparator />
                     </Flex>
+                    {error && (
+                        <Text color="red.400" mb="14px">
+                            {error}
+                        </Text>
+                    )}
                     <FormControl>
                         <FormLabel
                             display="flex"
