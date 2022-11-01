@@ -4,8 +4,12 @@ import {
     PrimaryGeneratedColumn,
     JoinTable,
     ManyToMany,
+    ManyToOne,
+    OneToMany,
 } from "typeorm";
-import { Roles } from "./role.model";
+import { Course } from "./course.entity";
+import { Enrollment } from "./enrollment.entity";
+import { Roles } from "./role.entity";
 
 @Entity({ name: "user" })
 export class User {
@@ -27,4 +31,10 @@ export class User {
     @ManyToMany(() => Roles, (roles) => roles.users)
     @JoinTable({ name: "user-role" })
     roles: Roles[];
+
+    @OneToMany(() => Course, (course) => course.user)
+    ownCourses: Course[];
+
+    @OneToMany(() => Enrollment, (enrollment) => enrollment.user)
+    userToCourses: Enrollment[];
 }

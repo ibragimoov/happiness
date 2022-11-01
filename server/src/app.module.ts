@@ -4,10 +4,16 @@ import { CourseModule } from "./course/course.module";
 import { AuthModule } from "./auth/auth.module";
 
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { User } from "./models/user.model";
+import { User } from "./entities/user.entity";
 import { ConfigModule } from "@nestjs/config";
 import { RolesModule } from "./roles/roles.module";
-import { Roles } from "./models/role.model";
+import { Roles } from "./entities/role.entity";
+import { Course } from "./entities/course.entity";
+import { Enrollment } from "./entities/enrollment.entity";
+import { CourseChapterController } from "./course_chapter/course_chapter.controller";
+import { CourseChapterService } from "./course_chapter/course_chapter.service";
+import { CourseChapterModule } from "./course_chapter/course_chapter.module";
+import { Chapters } from "./entities/course-chapter.entity";
 
 @Module({
     imports: [
@@ -21,7 +27,7 @@ import { Roles } from "./models/role.model";
             username: process.env.DB_USERNAME,
             password: process.env.DB_PASSWORD,
             database: process.env.DB_NAME,
-            entities: [User, Roles],
+            entities: [User, Roles, Course, Chapters, Enrollment],
             synchronize: true,
             autoLoadEntities: true,
         }),
@@ -29,6 +35,9 @@ import { Roles } from "./models/role.model";
         CourseModule,
         AuthModule,
         RolesModule,
+        CourseChapterModule,
     ],
+    controllers: [CourseChapterController],
+    providers: [CourseChapterService],
 })
 export class AppModule {}
