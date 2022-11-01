@@ -130,11 +130,14 @@ export default function NFT(props) {
                             mt="25px"
                         >
                             <Text
+                                display={"flex"}
+                                alignItems="center"
+                                justifyContent={"center"}
                                 fontWeight="700"
-                                fontSize="sm"
+                                fontSize="lg"
                                 color={textColorBid}
                             >
-                                Current Bid: {currentbid}
+                                {currentbid}₽
                             </Text>
                             <Link
                                 href={download}
@@ -155,7 +158,7 @@ export default function NFT(props) {
                                     px="24px"
                                     py="5px"
                                 >
-                                    Place Bid
+                                    Подписаться
                                 </Button>
                             </Link>
                         </Flex>

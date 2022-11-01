@@ -30,13 +30,33 @@ import Avatar1 from "assets/img/avatars/avatar1.png";
 import Avatar2 from "assets/img/avatars/avatar2.png";
 import Avatar3 from "assets/img/avatars/avatar3.png";
 import Avatar4 from "assets/img/avatars/avatar4.png";
-import tableDataTopCreators from "views/admin/marketplace/variables/tableDataTopCreators.json";
-import { tableColumnsTopCreators } from "views/admin/marketplace/variables/tableColumnsTopCreators";
+
+import axios from "../../../utils/axios";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserDetails } from "../../../redux/slices/user.slice";
+import { NavLink } from "react-router-dom";
 
 export default function Marketplace() {
     // Chakra Color Mode
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const textColorBrand = useColorModeValue("brand.500", "white");
+
+    const [courses, setCourses] = React.useState([]);
+
+    const getAllCourses = async () => {
+        const config = {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+        };
+
+        const { data } = await axios.get("/course", config);
+        setCourses(data);
+    };
+
+    React.useEffect(() => {
+        getAllCourses();
+    }, []);
+
     return (
         <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
             {/* Main Fields */}
@@ -68,7 +88,7 @@ export default function Marketplace() {
                                 ms="24px"
                                 fontWeight="700"
                             >
-                                Trending NFTs
+                                В тренде
                             </Text>
                             <Flex
                                 align="center"
@@ -82,7 +102,7 @@ export default function Marketplace() {
                                     me={{ base: "34px", md: "44px" }}
                                     to="#art"
                                 >
-                                    Art
+                                    Аналитика
                                 </Link>
                                 <Link
                                     color={textColorBrand}
@@ -90,7 +110,7 @@ export default function Marketplace() {
                                     me={{ base: "34px", md: "44px" }}
                                     to="#music"
                                 >
-                                    Music
+                                    Творчество
                                 </Link>
                                 <Link
                                     color={textColorBrand}
@@ -98,72 +118,77 @@ export default function Marketplace() {
                                     me={{ base: "34px", md: "44px" }}
                                     to="#collectibles"
                                 >
-                                    Collectibles
-                                </Link>
-                                <Link
-                                    color={textColorBrand}
-                                    fontWeight="500"
-                                    to="#sports"
-                                >
-                                    Sports
+                                    Общение
                                 </Link>
                             </Flex>
                         </Flex>
                         <SimpleGrid columns={{ base: 1, md: 3 }} gap="20px">
-                            <NFT
-                                name="Abstract Colors"
-                                author="By Esthera Jackson"
-                                bidders={[
-                                    Avatar1,
-                                    Avatar2,
-                                    Avatar3,
-                                    Avatar4,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                ]}
-                                image={Nft1}
-                                currentbid="0.91 ETH"
-                                download="#"
-                                isCatalog={true}
-                            />
-                            <NFT
-                                name="ETH AI Brain"
-                                author="By Nick Wilson"
-                                bidders={[
-                                    Avatar1,
-                                    Avatar2,
-                                    Avatar3,
-                                    Avatar4,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                ]}
-                                image={Nft2}
-                                currentbid="0.91 ETH"
-                                download="#"
-                                isCatalog={true}
-                            />
-                            <NFT
-                                name="Mesh Gradients "
-                                author="By Will Smith"
-                                bidders={[
-                                    Avatar1,
-                                    Avatar2,
-                                    Avatar3,
-                                    Avatar4,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                ]}
-                                image={Nft3}
-                                currentbid="0.91 ETH"
-                                download="#"
-                                isCatalog={true}
-                            />
+                            {courses.length !== 0 ? (
+                                courses.map((course) => (
+                                    <NavLink
+                                        key={course.id}
+                                        to={`/admin/course/${course.id}`}
+                                    >
+                                        <NFT
+                                            name={course.title}
+                                            author={course.brief}
+                                            bidders={[
+                                                Avatar1,
+                                                Avatar2,
+                                                Avatar3,
+                                                Avatar4,
+                                                Avatar1,
+                                                Avatar1,
+                                                Avatar1,
+                                                Avatar1,
+                                            ]}
+                                            image={Nft1}
+                                            currentbid={course.fee}
+                                            download="#"
+                                            isCatalog={true}
+                                        />
+                                    </NavLink>
+                                ))
+                            ) : (
+                                <>
+                                    <NFT
+                                        name="ETH AI Brain"
+                                        author="By Nick Wilson"
+                                        bidders={[
+                                            Avatar1,
+                                            Avatar2,
+                                            Avatar3,
+                                            Avatar4,
+                                            Avatar1,
+                                            Avatar1,
+                                            Avatar1,
+                                            Avatar1,
+                                        ]}
+                                        image={Nft2}
+                                        currentbid="0.91 ETH"
+                                        download="#"
+                                        isCatalog={true}
+                                    />
+                                    <NFT
+                                        name="Mesh Gradients"
+                                        author="By Will Smith"
+                                        bidders={[
+                                            Avatar1,
+                                            Avatar2,
+                                            Avatar3,
+                                            Avatar4,
+                                            Avatar1,
+                                            Avatar1,
+                                            Avatar1,
+                                            Avatar1,
+                                        ]}
+                                        image={Nft3}
+                                        currentbid="0.91 ETH"
+                                        download="#"
+                                        isCatalog={true}
+                                    />
+                                </>
+                            )}
                         </SimpleGrid>
                         <Text
                             mt="45px"

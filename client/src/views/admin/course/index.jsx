@@ -34,6 +34,7 @@ import tableDataTopCreators from "views/admin/marketplace/variables/tableDataTop
 import { tableColumnsTopCreators } from "views/admin/marketplace/variables/tableColumnsTopCreators";
 
 import { useLocation } from "react-router-dom";
+import axios from "../../../utils/axios";
 
 export default function Course() {
     // Chakra Color Mode
@@ -42,6 +43,24 @@ export default function Course() {
 
     const location = useLocation();
     const id = location.pathname.replace(/[^0-9]/g, "");
+
+    const [courseInfo, setCourseInfo] = React.useState({});
+
+    const getOneCourse = async () => {
+        const config = {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+        };
+
+        const { data } = await axios.get(`/course/${id}`, config);
+        setCourseInfo(data[0]);
+    };
+
+    React.useEffect(() => {
+        getOneCourse();
+    }, []);
+
+    console.log(courseInfo);
 
     return (
         <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
@@ -62,8 +81,8 @@ export default function Course() {
                     <Flex direction="column">
                         <SimpleGrid columns={{ base: 1, md: 3 }} gap="20px">
                             <NFT
-                                name="Мнемотехники"
-                                author="От Усние Бекировой"
+                                name={courseInfo.title}
+                                author={courseInfo.brief}
                                 bidders={[
                                     Avatar1,
                                     Avatar2,
@@ -75,11 +94,11 @@ export default function Course() {
                                     Avatar1,
                                 ]}
                                 image={Nft1}
-                                currentbid="0.91 ETH"
+                                currentbid={courseInfo.fee}
                                 download="#"
                             />
                         </SimpleGrid>
-                        <Text
+                        {/* <Text
                             mt="45px"
                             mb="36px"
                             color={textColor}
@@ -88,8 +107,8 @@ export default function Course() {
                             fontWeight="700"
                         >
                             Недавно добавленные
-                        </Text>
-                        <SimpleGrid
+                        </Text> */}
+                        {/* <SimpleGrid
                             columns={{ base: 1, md: 3 }}
                             gap="20px"
                             mb={{ base: "20px", xl: "0px" }}
@@ -145,7 +164,7 @@ export default function Course() {
                                 currentbid="0.91 ETH"
                                 download="#"
                             />
-                        </SimpleGrid>
+                        </SimpleGrid> */}
                     </Flex>
                 </Flex>
             </Grid>
