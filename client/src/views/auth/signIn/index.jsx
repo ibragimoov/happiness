@@ -54,16 +54,12 @@ function SignIn() {
     const [password, setPassword] = React.useState("");
 
     // redux
-    const { loading, userInfo, error } = useSelector((state) => state.user);
+    const { success, loading, userInfo, error } = useSelector(
+        (state) => state.user
+    );
     const dispatch = useDispatch();
 
     const handleClick = () => setShow(!show);
-
-    React.useEffect(() => {
-        if (userInfo) {
-            return <Redirect to="/admin/default" />;
-        }
-    }, [userInfo]);
 
     const handleSignIn = async (e) => {
         e.preventDefault();
@@ -73,7 +69,7 @@ function SignIn() {
         setIsAuth(true);
     };
 
-    if (error == null) {
+    if (error == null && isAuth && success) {
         return <Redirect to="/admin/default" />;
     }
 
@@ -89,7 +85,7 @@ function SignIn() {
                 justifyContent="center"
                 mb={{ base: "30px", md: "60px" }}
                 px={{ base: "25px", md: "0px" }}
-                mt={{ base: "40px", md: "14vh" }}
+                mt={{ base: "40px", md: "40px" }}
                 flexDirection="column"
             >
                 <Box me="auto">

@@ -6,6 +6,10 @@ import { CreateUserDto } from "./dto/create-user.dto";
 
 @Injectable()
 export class UserService {
+    constructor(
+        @InjectRepository(User) private userRepository: Repository<User>
+    ) {}
+
     async createUser(dto: CreateUserDto) {
         // const candidate = await this.getUserByEmail(dto.email);
 
@@ -27,10 +31,6 @@ export class UserService {
 
         return user;
     }
-
-    constructor(
-        @InjectRepository(User) private userRepository: Repository<User>
-    ) {}
 
     async getAllUsers() {
         return await this.userRepository.find();

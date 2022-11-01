@@ -9,6 +9,7 @@ import {
     FormControl,
     FormLabel,
     Heading,
+    HStack,
     Icon,
     Input,
     InputGroup,
@@ -65,7 +66,7 @@ function SignIn() {
 
     React.useEffect(() => {
         // redirect authenticated user to profile screen
-        if (userInfo) return <Redirect to={"#/admin/default"} />;
+        if (success) return <Redirect to={"#/admin/default"} />;
     }, [userInfo, success]);
 
     const handleSignUp = async (e) => {
@@ -92,7 +93,7 @@ function SignIn() {
                 justifyContent="center"
                 mb={{ base: "30px", md: "60px" }}
                 px={{ base: "25px", md: "0px" }}
-                mt={{ base: "40px", md: "14vh" }}
+                mt={{ base: "40px", md: "10px" }}
                 flexDirection="column"
             >
                 <Box me="auto">
@@ -144,57 +145,68 @@ function SignIn() {
                         </Text>
                         <HSeparator />
                     </Flex>
+                    {error && (
+                        <Text color="red.400" mb="14px">
+                            {error}
+                        </Text>
+                    )}
+                    <HStack>
+                        <FormControl>
+                            <FormLabel
+                                display="flex"
+                                ms="4px"
+                                fontSize="sm"
+                                fontWeight="500"
+                                color={textColor}
+                                mb="8px"
+                            >
+                                Имя<Text color={brandStars}>*</Text>
+                            </FormLabel>
+                            <Input
+                                isRequired={true}
+                                variant="auth"
+                                fontSize="sm"
+                                ms={{ base: "0px", md: "0px" }}
+                                type="email"
+                                placeholder="mail@simmmple.com"
+                                mb="24px"
+                                fontWeight="500"
+                                size="lg"
+                                value={firstName}
+                                onChange={(e) => {
+                                    setFirstName(e.target.value);
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel
+                                display="flex"
+                                ms="4px"
+                                fontSize="sm"
+                                fontWeight="500"
+                                color={textColor}
+                                mb="8px"
+                            >
+                                Фамилия<Text color={brandStars}>*</Text>
+                            </FormLabel>
+                            <Input
+                                isRequired={true}
+                                variant="auth"
+                                fontSize="sm"
+                                ms={{ base: "0px", md: "0px" }}
+                                type="email"
+                                placeholder="mail@simmmple.com"
+                                mb="24px"
+                                fontWeight="500"
+                                size="lg"
+                                value={lastName}
+                                onChange={(e) => {
+                                    setLastName(e.target.value);
+                                }}
+                            />
+                        </FormControl>
+                    </HStack>
                     <FormControl>
-                        <FormLabel
-                            display="flex"
-                            ms="4px"
-                            fontSize="sm"
-                            fontWeight="500"
-                            color={textColor}
-                            mb="8px"
-                        >
-                            Имя<Text color={brandStars}>*</Text>
-                        </FormLabel>
-                        <Input
-                            isRequired={true}
-                            variant="auth"
-                            fontSize="sm"
-                            ms={{ base: "0px", md: "0px" }}
-                            type="email"
-                            placeholder="mail@simmmple.com"
-                            mb="24px"
-                            fontWeight="500"
-                            size="lg"
-                            value={firstName}
-                            onChange={(e) => {
-                                setFirstName(e.target.value);
-                            }}
-                        />
-                        <FormLabel
-                            display="flex"
-                            ms="4px"
-                            fontSize="sm"
-                            fontWeight="500"
-                            color={textColor}
-                            mb="8px"
-                        >
-                            Фамилия<Text color={brandStars}>*</Text>
-                        </FormLabel>
-                        <Input
-                            isRequired={true}
-                            variant="auth"
-                            fontSize="sm"
-                            ms={{ base: "0px", md: "0px" }}
-                            type="email"
-                            placeholder="mail@simmmple.com"
-                            mb="24px"
-                            fontWeight="500"
-                            size="lg"
-                            value={lastName}
-                            onChange={(e) => {
-                                setLastName(e.target.value);
-                            }}
-                        />
                         <FormLabel
                             display="flex"
                             ms="4px"

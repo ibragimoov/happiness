@@ -85,6 +85,27 @@ export const getUserDetails = createAsyncThunk(
     }
 );
 
+export const logout = createAsyncThunk(
+    "user/getUserDetails",
+    async (arg, { getState, rejectWithValue }) => {
+        try {
+            const config = {
+                headers: { "Content-Type": "application/json" },
+                withCredentials: true,
+            };
+
+            const { data } = await axios.post("/auth/logout", config);
+            return data;
+        } catch (error) {
+            if (error.response && error.response.data.message) {
+                return rejectWithValue(error.response.data.message);
+            } else {
+                return rejectWithValue(error.message);
+            }
+        }
+    }
+);
+
 const userToken = localStorage.getItem("userToken")
     ? localStorage.getItem("userToken")
     : 123;
@@ -100,15 +121,7 @@ const initialState = {
 const userSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {
-        logout: (state) => {
-            localStorage.removeItem("userToken"); // deletes token from storage
-            state.loading = false;
-            state.userInfo = null;
-            state.userToken = null;
-            state.error = null;
-        },
-    },
+    reducers: {},
     extraReducers: {
         [userLogin.pending]: (state) => {
             state.loading = true;
@@ -148,5 +161,4 @@ const userSlice = createSlice({
     },
 });
 
-export const { logout } = userSlice.actions;
 export default userSlice.reducer;

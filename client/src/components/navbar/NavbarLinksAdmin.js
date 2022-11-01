@@ -55,23 +55,23 @@ export default function HeaderLinks(props) {
         "whiteAlpha.200"
     );
 
-    const Logout = async () => {
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-            },
-            withCredentials: true,
-        };
+    // const Logout = async () => {
+    //     const config = {
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //         withCredentials: true,
+    //     };
 
-        await axios.post("/auth/logout", config);
-    };
+    //     await axios.post("/auth/logout", config);
+    // };
 
     const dispatch = useDispatch();
     const [isLog, setLog] = React.useState(false);
     const { userInfo } = useSelector((state) => state.user);
 
     const handleLogout = () => {
-        Logout();
+        dispatch(logout());
         setLog(true);
     };
 

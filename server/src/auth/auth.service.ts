@@ -45,15 +45,14 @@ export class AuthService {
         if (!cookie) {
             throw new UnauthorizedException();
         }
-
+        // console.log(cookie);
         const data = await this.jwtService.verifyAsync(cookie);
-        console.log(data);
 
         if (!data) {
             throw new UnauthorizedException();
         }
 
-        const user = await this.userService.getUserByEmail(data?.email);
+        const user = await this.userService.getUserByEmail(data.email);
 
         return user;
     }
@@ -76,7 +75,7 @@ export class AuthService {
 
         if (!user) {
             throw new UnauthorizedException({
-                message: "Некорректный емайл или пароль",
+                message: "Пользователь не найден",
             });
         }
         const passwordEquals = await bcrypt.compare(

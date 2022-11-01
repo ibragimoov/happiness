@@ -51,9 +51,9 @@ export class AuthController {
 
         const data = await this.authService.me(cookie);
 
-        const { password, ...result } = data;
+        // const { password, ...result } = data;
 
-        return result;
+        return data;
     }
 
     @Post("/logout")

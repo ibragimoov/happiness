@@ -34,8 +34,6 @@ export class CourseService {
 
     async create(dto: CreateCourseDto) {
         try {
-            const course = new Course();
-
             const user = await this.userRepository.findOne({
                 where: { id: dto.user_id },
             });
@@ -44,15 +42,9 @@ export class CourseService {
                 throw new BadRequestException("Пользователь не найден");
             }
 
-            course.chapters = dto.chapters;
-
-            course.user = user;
-            course.title = dto.title;
-            course.brief = dto.brief;
-            course.num_of_chapters = dto.num_of_chapters;
-            course.fee = dto.fee;
-
-            this.courseRepository.save(course);
+            const course = await this.courseRepository.save({
+                ...dto,
+            });
 
             const enrollment = {
                 enrollment_date: new Date(),
