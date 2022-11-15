@@ -27,11 +27,12 @@ export class Course {
     @Column({ default: 123 })
     fee: number;
 
-    // @ManyToOne(() => User, (user) => user.ownCourses, {
-    //     cascade: true,
-    //     onDelete: "CASCADE",
-    // })
-    // user: User;
+    @ManyToOne(() => User, (user) => user.ownCourses, {
+        cascade: true,
+        onDelete: "CASCADE",
+    })
+    @JoinColumn({ name: "user" })
+    user: User;
 
     @OneToMany(() => Enrollment, (enrollment) => enrollment.course)
     userToCourses: Enrollment[];

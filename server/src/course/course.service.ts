@@ -32,11 +32,25 @@ export class CourseService {
             where: { id: id },
         });
 
-        if (!course) {
-            throw new BadRequestException({ message: "Курс не найден" });
+        return course;
+    }
+
+    async getOwnedCourses(user: CreateUserDto) {
+        const enrollCourses = await this.enrollmentRepository.find({
+            relations: ["course", "user"],
+            where: { user: user },
+        });
+
+        if (!enrollCourses) {
+            throw new BadRequestException("Курсов не приобретено");
         }
 
-        return course;
+        let courses: Course[] = []
+        enrollCourses.forEach(enroll => {
+            courses.push(enroll.course)
+        });
+
+        return courses
     }
 
     async create(dto: CreateCourseDto) {
@@ -99,6 +113,10 @@ export class CourseService {
         }
 
         const course = await this.getOne(id);
+
+        if (!course) {
+            throw new BadRequestException({ message: "Курс не найден" });
+        }
 
         const enroll_candidate = await this.enrollmentRepository.findOne({
             where: {

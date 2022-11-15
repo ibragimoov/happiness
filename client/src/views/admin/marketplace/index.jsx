@@ -165,7 +165,7 @@ export default function Marketplace() {
                                             Avatar1,
                                         ]}
                                         image={Nft2}
-                                        currentbid="0.91 ETH"
+                                        currentbid="459"
                                         download="#"
                                         isCatalog={true}
                                     />
@@ -183,7 +183,7 @@ export default function Marketplace() {
                                             Avatar1,
                                         ]}
                                         image={Nft3}
-                                        currentbid="0.91 ETH"
+                                        currentbid="249"
                                         download="#"
                                         isCatalog={true}
                                     />

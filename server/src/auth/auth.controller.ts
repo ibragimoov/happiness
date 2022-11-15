@@ -34,8 +34,6 @@ export class AuthController {
         @Body() userDto: CreateUserDto,
         @Res({ passthrough: true }) response: Response
     ) {
-        // return this.authService.registration(userDto);
-
         const jwt = await this.authService.registration(userDto);
 
         response.cookie("jwt", jwt.token, { httpOnly: true });
@@ -50,8 +48,6 @@ export class AuthController {
         const cookie = request.cookies["jwt"];
 
         const data = await this.authService.me(cookie);
-
-        // const { password, ...result } = data;
 
         return data;
     }

@@ -11,4 +11,9 @@ export class UserController {
     getAllUser() {
         return this.userService.getAllUsers();
     }
+
+    @Post("ownCourses")
+    getOwnCourses(@Body("email") email: string) {
+        return this.userService.getOwnCourses(email);
+    }
 }

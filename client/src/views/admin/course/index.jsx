@@ -51,6 +51,8 @@ export default function Course() {
     const id = location.pathname.replace(/[^0-9]/g, "");
 
     const [courseInfo, setCourseInfo] = React.useState({});
+    const [disabled, setDisabled] = React.useState(false);
+    const [errors, setErrors] = React.useState("");
 
     const { success, loading, userInfo, error } = useSelector(
         (state) => state.user
@@ -66,16 +68,16 @@ export default function Course() {
         setCourseInfo(data);
     };
 
-    const ownCourse = async () => {
+    async function ownCourse() {
         const config = {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
         };
-
-        await axios.post(`/course/subscription/${id}`, userInfo, config);
-    };
-
-    const handleSub = () => {};
+        await axios
+            .post(`/course/subscription/${id}`, userInfo, config)
+            .catch((e) => setErrors(e.response.data));
+        setDisabled(true);
+    }
 
     React.useEffect(() => {
         getOneCourse();
@@ -112,8 +114,14 @@ export default function Course() {
                     Никогда не пропускайте ни одной встречи. Никогда не
                     опаздывай на один из них.
                 </Text>
+                {errors && (
+                    <Text color={"red.500"} fontSize={"3xl"} mw={"3xl"}>
+                        {errors.message} :(
+                    </Text>
+                )}
                 <Stack spacing={6} direction={"row"}>
                     <Button
+                        type="button"
                         fontSize={"xl"}
                         h={"55px"}
                         rounded={"full"}
@@ -122,6 +130,7 @@ export default function Course() {
                         bg={"blue.400"}
                         _hover={{ bg: "blue.500" }}
                         onClick={ownCourse}
+                        disabled={disabled}
                     >
                         Подписаться
                     </Button>

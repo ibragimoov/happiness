@@ -31,7 +31,7 @@ export class CourseController {
     }
 
     @Post("/subscription/:id")
-    ownCourse(@Body() user: CreateUserDto, @Param() id: number) {
+    ownCourse(@Body() user: CreateUserDto, @Param("id") id: number) {
         return this.courseService.ownCourse(user, id);
     }
 

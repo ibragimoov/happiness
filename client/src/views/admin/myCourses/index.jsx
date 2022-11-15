@@ -34,10 +34,37 @@ import tableDataTopCreators from "views/admin/marketplace/variables/tableDataTop
 import { tableColumnsTopCreators } from "views/admin/marketplace/variables/tableColumnsTopCreators";
 import { NavLink } from "react-router-dom";
 
+import { useSelector } from "react-redux";
+import axios from "../../../utils/axios";
+
 export default function MyCourses() {
     // Chakra Color Mode
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const textColorBrand = useColorModeValue("brand.500", "white");
+
+    const [ownCourses, setOwnCourses] = React.useState([]);
+    const { success, loading, userInfo, error } = useSelector(
+        (state) => state.user
+    );
+
+    const getOwnCourses = async () => {
+        const config = {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+        };
+
+        const { data } = await axios.post(
+            `/user/ownCourses`,
+            { email: userInfo.email },
+            config
+        );
+        setOwnCourses(data);
+    };
+
+    React.useEffect(() => {
+        getOwnCourses();
+    }, []);
+
     return (
         <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
             {/* Main Fields */}
@@ -56,57 +83,81 @@ export default function MyCourses() {
                 >
                     <Flex direction="column">
                         <SimpleGrid columns={{ base: 1, md: 3 }} gap="20px">
-                            <NFT
-                                name="Мнемотехники"
-                                author="От Усние Бекировой"
-                                bidders={[
-                                    Avatar1,
-                                    Avatar2,
-                                    Avatar3,
-                                    Avatar4,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                ]}
-                                image={Nft1}
-                                currentbid="0.91 ETH"
-                                download="#"
-                            />
-                            <NFT
-                                name="Самопознание"
-                                author="От Эмирова Эльдара"
-                                bidders={[
-                                    Avatar1,
-                                    Avatar2,
-                                    Avatar3,
-                                    Avatar4,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                ]}
-                                image={Nft2}
-                                currentbid="0.91 ETH"
-                                download="#"
-                            />
-                            <NFT
-                                name="Психическая саморегуляция"
-                                author="От Усние Бекировой"
-                                bidders={[
-                                    Avatar1,
-                                    Avatar2,
-                                    Avatar3,
-                                    Avatar4,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                ]}
-                                image={Nft3}
-                                currentbid="0.91 ETH"
-                                download="#"
-                            />
+                            {ownCourses.length !== 0 ? (
+                                ownCourses.map((own) => (
+                                    <NFT
+                                        name={own.title}
+                                        author="От Усние Бекировой"
+                                        bidders={[
+                                            Avatar1,
+                                            Avatar2,
+                                            Avatar3,
+                                            Avatar4,
+                                            Avatar1,
+                                            Avatar1,
+                                            Avatar1,
+                                            Avatar1,
+                                        ]}
+                                        image={Nft1}
+                                        currentbid={own.fee}
+                                        download="#"
+                                    />
+                                ))
+                            ) : (
+                                <>
+                                    <NFT
+                                        name="Мнемотехники"
+                                        author="От Усние Бекировой"
+                                        bidders={[
+                                            Avatar1,
+                                            Avatar2,
+                                            Avatar3,
+                                            Avatar4,
+                                            Avatar1,
+                                            Avatar1,
+                                            Avatar1,
+                                            Avatar1,
+                                        ]}
+                                        image={Nft1}
+                                        currentbid="0.91 ETH"
+                                        download="#"
+                                    />
+                                    <NFT
+                                        name="Самопознание"
+                                        author="От Эмирова Эльдара"
+                                        bidders={[
+                                            Avatar1,
+                                            Avatar2,
+                                            Avatar3,
+                                            Avatar4,
+                                            Avatar1,
+                                            Avatar1,
+                                            Avatar1,
+                                            Avatar1,
+                                        ]}
+                                        image={Nft2}
+                                        currentbid="0.91 ETH"
+                                        download="#"
+                                    />
+                                    <NFT
+                                        name="Психическая саморегуляция"
+                                        author="От Усние Бекировой"
+                                        bidders={[
+                                            Avatar1,
+                                            Avatar2,
+                                            Avatar3,
+                                            Avatar4,
+                                            Avatar1,
+                                            Avatar1,
+                                            Avatar1,
+                                            Avatar1,
+                                        ]}
+                                        image={Nft3}
+                                        currentbid="0.91 ETH"
+                                        download="#"
+                                    />
+                                </>
+                            )}
                         </SimpleGrid>
                         <Text
                             mt="45px"
