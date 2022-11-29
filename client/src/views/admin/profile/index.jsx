@@ -47,7 +47,7 @@ export default function Overview() {
                     banner={banner}
                     // avatar={}
                     name={`${userInfo.first_name} ${userInfo.last_name}`}
-                    job="Блогер"
+                    job="Пользователь"
                     posts="0"
                     followers="0"
                     following="0"

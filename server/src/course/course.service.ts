@@ -30,6 +30,7 @@ export class CourseService {
     async getOne(id: number) {
         const course = await this.courseRepository.findOne({
             where: { id: id },
+            relations: { chapters: true },
         });
 
         return course;
@@ -45,12 +46,12 @@ export class CourseService {
             throw new BadRequestException("Курсов не приобретено");
         }
 
-        let courses: Course[] = []
-        enrollCourses.forEach(enroll => {
-            courses.push(enroll.course)
+        let courses: Course[] = [];
+        enrollCourses.forEach((enroll) => {
+            courses.push(enroll.course);
         });
 
-        return courses
+        return courses;
     }
 
     async create(dto: CreateCourseDto) {

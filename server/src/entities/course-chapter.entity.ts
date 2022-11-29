@@ -15,6 +15,9 @@ export class Chapters {
     id: number;
 
     @Column()
+    chapterUuId: string;
+
+    @Column()
     title: string;
 
     @Column()

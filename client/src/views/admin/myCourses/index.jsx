@@ -85,23 +85,28 @@ export default function MyCourses() {
                         <SimpleGrid columns={{ base: 1, md: 3 }} gap="20px">
                             {ownCourses.length !== 0 ? (
                                 ownCourses.map((own) => (
-                                    <NFT
-                                        name={own.title}
-                                        author="От Усние Бекировой"
-                                        bidders={[
-                                            Avatar1,
-                                            Avatar2,
-                                            Avatar3,
-                                            Avatar4,
-                                            Avatar1,
-                                            Avatar1,
-                                            Avatar1,
-                                            Avatar1,
-                                        ]}
-                                        image={Nft1}
-                                        currentbid={own.fee}
-                                        download="#"
-                                    />
+                                    <NavLink
+                                        key={own.id}
+                                        to={`/admin/watchCourse/${own.id}`}
+                                    >
+                                        <NFT
+                                            name={own.title}
+                                            author="От Усние Бекировой"
+                                            bidders={[
+                                                Avatar1,
+                                                Avatar2,
+                                                Avatar3,
+                                                Avatar4,
+                                                Avatar1,
+                                                Avatar1,
+                                                Avatar1,
+                                                Avatar1,
+                                            ]}
+                                            image={Nft1}
+                                            currentbid={own.fee}
+                                            download="#"
+                                        />
+                                    </NavLink>
                                 ))
                             ) : (
                                 <>

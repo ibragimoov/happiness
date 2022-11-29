@@ -23,6 +23,7 @@ import MyCourses from "views/admin/myCourses";
 import Home from "views/home/default";
 import Course from "views/admin/course";
 import CreateCourse from "views/admin/create-course/CreateCourse";
+import WatchCourse from "views/admin/watchCourse";
 
 const routes = [
     {
@@ -83,6 +84,14 @@ const routes = [
         path: "/course",
         icon: <Icon as={ImBook} width="20px" height="20px" color="inherit" />,
         component: Course,
+        secondary: true,
+    },
+    {
+        name: "Курс",
+        layout: "/admin",
+        path: "/watchCourse/",
+        icon: <Icon as={ImBook} width="20px" height="20px" color="inherit" />,
+        component: WatchCourse,
         secondary: true,
     },
     {
