@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: "https://happiness-backend-app.herokuapp.com/",
+    baseURL: "https://happiness-services-backend.onrender.com",
 });
 
 export default instance;
