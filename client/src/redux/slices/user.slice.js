@@ -76,11 +76,13 @@ export const getUserDetails = createAsyncThunk(
                 withCredentials: true,
             };
 
-            const { data } = await axios.get("/auth/me", {
-                headers: { "Content-Type": "application/json" },
-                withCredentials: true,
-                params: { token: Cookies.get("jwt") },
-            });
+            const { data } = await axios.get(
+                `/auth/me?token=${Cookies.get("jwt")}`,
+                {
+                    headers: { "Content-Type": "application/json" },
+                    withCredentials: true,
+                }
+            );
             return data;
         } catch (error) {
             if (error.response && error.response.data.message) {
