@@ -74,6 +74,7 @@ export const getUserDetails = createAsyncThunk(
             const config = {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true,
+                data: Cookies.get("jwt"),
             };
 
             const { data } = await axios.get("/auth/me", config);
