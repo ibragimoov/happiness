@@ -45,11 +45,13 @@ export const userLogin = createAsyncThunk(
                 },
                 withCredentials: true,
             };
-            const { token } = await axios.post(
+            const { data } = await axios.post(
                 "/auth/login",
                 { email, password },
                 config
             );
+
+            const token = data.token;
 
             // store user's token in local storage
             Cookies.set("jwt", token);
@@ -113,9 +115,7 @@ export const logout = createAsyncThunk(
     }
 );
 
-const userToken = localStorage.getItem("userToken")
-    ? localStorage.getItem("userToken")
-    : 123;
+const userToken = Cookies.get("jwt");
 
 const initialState = {
     loading: false,
@@ -137,8 +137,7 @@ const userSlice = createSlice({
         [userLogin.fulfilled]: (state, { payload }) => {
             state.success = true;
             state.loading = false;
-            state.userInfo = payload;
-            state.userToken = payload.userToken;
+            state.userToken = payload;
         },
         [userLogin.rejected]: (state, { payload }) => {
             state.loading = false;

@@ -28,7 +28,7 @@ import { RiEyeCloseLine } from "react-icons/ri";
 import axios from "../../../utils/axios";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../../redux/slices/user.slice";
-import Cookies from "js-cookie";
+import Cookies from "cookies-js";
 
 function SignIn() {
     // Chakra color mode
@@ -56,6 +56,7 @@ function SignIn() {
 
     // cookie jwt token
     const token = Cookies.get("jwt");
+    console.log(token);
 
     // redux
     const { success, loading, userInfo, error } = useSelector(
