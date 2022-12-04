@@ -54,7 +54,7 @@ export const userLogin = createAsyncThunk(
             // store user's token in local storage
             Cookies.set("jwt", token);
             // localStorage.setItem("userToken", data.userToken);
-            return data;
+            return token;
         } catch (error) {
             // return custom error message from API if any
             if (error.response && error.response.data.message) {
