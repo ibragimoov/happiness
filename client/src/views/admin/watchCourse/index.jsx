@@ -83,8 +83,6 @@ export default function WatchCourse() {
         getOneCourse();
     }, []);
 
-    console.log(courseInfo);
-
     return (
         <Container maxW={"3xl"}>
             <Stack

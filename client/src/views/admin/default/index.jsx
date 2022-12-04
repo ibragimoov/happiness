@@ -36,6 +36,8 @@ import tableDataComplex from "views/admin/default/variables/tableDataComplex.jso
 
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "../../../redux/slices/user.slice";
+import Cookies from "js-cookie";
+import { Redirect } from "react-router-dom";
 
 export default function UserReports() {
     // Chakra Color Mode
@@ -43,11 +45,16 @@ export default function UserReports() {
     const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
 
     const { userInfo, userToken } = useSelector((state) => state.user);
+    const token = Cookies.get("jwt");
     const dispatch = useDispatch();
 
     React.useEffect(() => {
         dispatch(getUserDetails());
     }, []);
+
+    if (!token) {
+        return <Redirect to={"/auth/signIn"} />;
+    }
 
     return (
         <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>

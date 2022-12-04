@@ -71,7 +71,6 @@ const CreateCourse = () => {
     };
 
     if (created) {
-        console.log(created);
         return <Redirect to={"/admin/default"} />;
     }
 

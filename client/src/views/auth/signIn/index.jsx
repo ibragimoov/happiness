@@ -28,6 +28,7 @@ import { RiEyeCloseLine } from "react-icons/ri";
 import axios from "../../../utils/axios";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../../redux/slices/user.slice";
+import Cookies from "js-cookie";
 
 function SignIn() {
     // Chakra color mode
@@ -53,6 +54,9 @@ function SignIn() {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
 
+    // cookie jwt token
+    const token = Cookies.get("jwt");
+
     // redux
     const { success, loading, userInfo, error } = useSelector(
         (state) => state.user
@@ -69,7 +73,7 @@ function SignIn() {
         setIsAuth(true);
     };
 
-    if (error == null && isAuth && success) {
+    if (token) {
         return <Redirect to="/admin/default" />;
     }
 

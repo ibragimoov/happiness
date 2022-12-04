@@ -1,5 +1,6 @@
 // features/user/userSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 import axios from "../../utils/axios";
 
 export const registerUser = createAsyncThunk(
@@ -50,7 +51,7 @@ export const userLogin = createAsyncThunk(
             );
 
             // store user's token in local storage
-            localStorage.setItem("userToken", data.userToken);
+            // localStorage.setItem("userToken", data.userToken);
             return data;
         } catch (error) {
             // return custom error message from API if any
