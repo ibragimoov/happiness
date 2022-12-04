@@ -17,12 +17,12 @@ export const registerUser = createAsyncThunk(
                 withCredentials: true,
             };
             // make request to backend
-            const { data } = await axios.post(
+            const { token } = await axios.post(
                 "/auth/registration",
                 { email, password, first_name: firstName, last_name: lastName },
                 config
             );
-            Cookies.set("jwt", data.token);
+            Cookies.set("jwt", token);
         } catch (error) {
             // return custom error message from API if any
             if (error.response && error.response.data.message) {
@@ -45,14 +45,14 @@ export const userLogin = createAsyncThunk(
                 },
                 withCredentials: true,
             };
-            const { data } = await axios.post(
+            const { token } = await axios.post(
                 "/auth/login",
                 { email, password },
                 config
             );
 
             // store user's token in local storage
-            Cookies.set("jwt", data.token);
+            Cookies.set("jwt", token);
             // localStorage.setItem("userToken", data.userToken);
             return data;
         } catch (error) {
