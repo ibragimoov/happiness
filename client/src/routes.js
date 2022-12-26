@@ -56,7 +56,7 @@ const routes = [
         secondary: true,
     },
     {
-        name: "Мои курсы",
+        name: "Библиотека",
         layout: "/admin",
         path: "/my-courses",
         icon: <Icon as={ImBook} width="20px" height="20px" color="inherit" />,

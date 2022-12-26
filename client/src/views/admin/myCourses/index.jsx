@@ -82,16 +82,27 @@ export default function MyCourses() {
                     gridArea={{ xl: "1 / 1 / 2 / 2  ", "2xl": "1 / 1 / 2 / 2" }}
                 >
                     <Flex direction="column">
+                        <Text
+                            mt="45px"
+                            mb="36px"
+                            color={textColor}
+                            fontSize="2xl"
+                            ms="24px"
+                            fontWeight="700"
+                        >
+                            Недавно добавленные
+                        </Text>
                         <SimpleGrid columns={{ base: 1, md: 3 }} gap="20px">
                             {ownCourses.length !== 0 ? (
                                 ownCourses.map((own) => (
                                     <NavLink
-                                        key={own.id}
-                                        to={`/admin/watchCourse/${own.id}`}
+                                        key={own.course.id}
+                                        to={`/admin/watchCourse/${own.course.id}`}
                                     >
                                         <NFT
-                                            name={own.title}
-                                            author="От Усние Бекировой"
+                                            name={own.course.title}
+                                            author={`${own.user.first_name}     
+                                                ${own.user.last_name}`}
                                             bidders={[
                                                 Avatar1,
                                                 Avatar2,
@@ -172,7 +183,7 @@ export default function MyCourses() {
                             ms="24px"
                             fontWeight="700"
                         >
-                            Недавно добавленные
+                            Недавно созданные
                         </Text>
                         <SimpleGrid
                             columns={{ base: 1, md: 3 }}

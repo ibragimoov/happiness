@@ -24,7 +24,17 @@ export default function NFT(props) {
     const textColor = useColorModeValue("navy.700", "white");
     const textColorBid = useColorModeValue("brand.500", "white");
     return (
-        <Card p="20px">
+        <Card
+            p="20px"
+            _hover={{
+                "-webkit-box-shadow": "1px 10px 70px -18px rgba(0,0,0,0.75)",
+                "-moz-box-shadow": "1px 10px 70px -18px rgba(0,0,0,0.75)",
+                "box-shadow": "1px 10px 70px -18px rgba(0,0,0,0.45)",
+                transition: "0.5s",
+            }}
+            transition="0.5s"
+            transitionProperty="all"
+        >
             <Flex direction={{ base: "column" }} justify="center">
                 <Box mb={{ base: "20px", "2xl": "20px" }} position="relative">
                     <Image

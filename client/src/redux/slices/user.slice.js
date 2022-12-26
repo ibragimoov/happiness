@@ -17,12 +17,12 @@ export const registerUser = createAsyncThunk(
                 withCredentials: true,
             };
             // make request to backend
-            const { token } = await axios.post(
+            const { data } = await axios.post(
                 "/auth/registration",
                 { email, password, first_name: firstName, last_name: lastName },
                 config
             );
-            Cookies.set("jwt", token);
+            Cookies.set("jwt", data.token);
         } catch (error) {
             // return custom error message from API if any
             if (error.response && error.response.data.message) {

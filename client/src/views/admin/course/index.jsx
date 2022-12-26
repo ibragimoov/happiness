@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink, Redirect } from "react-router-dom";
 
 // Chakra imports
 import {
@@ -11,6 +12,7 @@ import {
     useColorModeValue,
     SimpleGrid,
 } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 
 // Custom components
 import Banner from "views/admin/marketplace/components/Banner";
@@ -33,7 +35,15 @@ import Avatar4 from "assets/img/avatars/avatar4.png";
 import tableDataTopCreators from "views/admin/marketplace/variables/tableDataTopCreators.json";
 import { tableColumnsTopCreators } from "views/admin/marketplace/variables/tableColumnsTopCreators";
 
-import { Container, Heading, Stack, Icon, IconProps } from "@chakra-ui/react";
+import {
+    Container,
+    Heading,
+    Stack,
+    Icon,
+    IconProps,
+    Wrap,
+    WrapItem,
+} from "@chakra-ui/react";
 
 import { useLocation } from "react-router-dom";
 import axios from "../../../utils/axios";
@@ -44,6 +54,7 @@ import { useSelector } from "react-redux";
 
 export default function Course() {
     // Chakra Color Mode
+    const toast = useToast();
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const textColorBrand = useColorModeValue("brand.500", "white");
 
@@ -75,15 +86,31 @@ export default function Course() {
         };
         await axios
             .post(`/course/subscription/${id}`, userInfo, config)
+            .then(() => {
+                setDisabled(true);
+
+                toast({
+                    title: "Курс приобретён.",
+                    description: "Онлайн-курс доступен в библиотеке.",
+                    position: "bottom-right",
+                    isClosable: true,
+                });
+
+                // alert(
+                //     "Поздравляем! Вы приобрели один из множества онлайн-курсов на нашей онлайн-платформе.\nНаправляем Вас в приобретенные курсы"
+                // );
+            })
             .catch((e) => setErrors(e.response.data));
-        setDisabled(true);
     }
 
     React.useEffect(() => {
+        window.scrollTo(0, 0);
         getOneCourse();
     }, []);
 
-    // console.log(courseInfo);
+    // if (disabled) {
+    //     return <Redirect to="/admin/my-courses" />;
+    // }
 
     return (
         <Container maxW={"3xl"}>
@@ -150,6 +177,34 @@ export default function Course() {
         </Container>
     );
 }
+
+export const PositionExample = () => {
+    const toast = useToast();
+    const positions = [
+        "top",
+        "top-right",
+        "top-left",
+        "bottom",
+        "bottom-right",
+        "bottom-left",
+    ];
+
+    return (
+        <Wrap>
+            <Button
+                onClick={() =>
+                    toast({
+                        title: `bottom-right toast`,
+                        position: "bottom-right",
+                        isClosable: true,
+                    })
+                }
+            >
+                Show {"bottom-right"} toast
+            </Button>
+        </Wrap>
+    );
+};
 
 export const Illustration = (props) => {
     return (

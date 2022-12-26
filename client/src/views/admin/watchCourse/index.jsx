@@ -6,6 +6,7 @@ import {
     Button,
     Flex,
     Grid,
+    chakra,
     Link,
     Text,
     useColorModeValue,
@@ -39,6 +40,7 @@ import { useLocation } from "react-router-dom";
 import axios from "../../../utils/axios";
 import Statistics from "./components/Statistics";
 import Contact from "./components/Contact";
+import { StatsCard } from "./components/Statistics";
 
 import { useSelector } from "react-redux";
 
@@ -83,6 +85,10 @@ export default function WatchCourse() {
         getOneCourse();
     }, []);
 
+    const chaptersElelemnt = courseInfo.chapters?.map((chap) => (
+        <StatsCard ket={chap.id} stat={chap.title} />
+    ));
+
     return (
         <Container maxW={"3xl"}>
             <Stack
@@ -118,7 +124,22 @@ export default function WatchCourse() {
                     </Text>
                 )}
             </Stack>
-            <Statistics />
+            <Box maxW="7xl" mx={"auto"} pt={0} px={{ base: 2, sm: 12, md: 17 }}>
+                <chakra.h1
+                    textAlign={"center"}
+                    fontSize={"5xl"}
+                    py={10}
+                    fontWeight={"bold"}
+                >
+                    Главы
+                </chakra.h1>
+                <SimpleGrid
+                    columns={{ base: 1, md: 3 }}
+                    spacing={{ base: 5, lg: 8 }}
+                >
+                    {chaptersElelemnt}
+                </SimpleGrid>
+            </Box>
         </Container>
     );
 }

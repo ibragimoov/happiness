@@ -30,7 +30,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../../redux/slices/user.slice";
 import Cookies from "cookies-js";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function SignIn() {
+    const notify = () => toast.success("Аккаунт зарегистрирован");
+
     // Chakra color mode
     const textColor = useColorModeValue("navy.700", "white");
     const textColorSecondary = "gray.400";
@@ -50,13 +55,11 @@ function SignIn() {
     const [show, setShow] = React.useState(false);
 
     // data for login
-    const [isAuth, setIsAuth] = React.useState(false);
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
 
     // cookie jwt token
-    const token = Cookies.get("jwt");
-    console.log(token);
+    let token = Cookies.get("jwt");
 
     // redux
     const { success, loading, userInfo, error } = useSelector(
@@ -68,15 +71,12 @@ function SignIn() {
 
     const handleSignIn = async (e) => {
         e.preventDefault();
-
         dispatch(userLogin({ email, password }));
-
-        setIsAuth(true);
+        token = Cookies.get("jwt");
+        if (token) toast.success("Аккаунт зарегистрирован");
     };
 
-    if (token) {
-        return <Redirect to="/admin/default" />;
-    }
+    if (token) return <Redirect to="/admin/default" />;
 
     return (
         <DefaultAuth illustrationBackground={illustration} image={illustration}>
@@ -93,6 +93,7 @@ function SignIn() {
                 mt={{ base: "40px", md: "40px" }}
                 flexDirection="column"
             >
+                <ToastContainer />
                 <Box me="auto">
                     <Heading color={textColor} fontSize="36px" mb="10px">
                         Вход

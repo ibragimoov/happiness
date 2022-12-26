@@ -17,6 +17,10 @@ import {
     Text,
     useColorModeValue,
 } from "@chakra-ui/react";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 // Custom components
 import { HSeparator } from "components/separator/Separator";
 import DefaultAuth from "layouts/auth/Default";
@@ -33,6 +37,8 @@ import Cookies from "js-cookie";
 
 function SignIn() {
     // Chakra color mode
+    const notify = () => toast.success("Аккаунт зарегистрирован");
+
     const textColor = useColorModeValue("navy.700", "white");
     const textColorSecondary = "gray.400";
     const textColorDetails = useColorModeValue("navy.700", "secondaryGray.600");
@@ -51,13 +57,12 @@ function SignIn() {
     const [show, setShow] = React.useState(false);
 
     // data for register
-    const [isAuth, setIsAuth] = React.useState(false);
     const [firstName, setFirstName] = React.useState("");
     const [lastName, setLastName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
 
-    const token = Cookies.get("jwt");
+    let token = Cookies.get("jwt");
 
     // redux
     const { loading, userInfo, error, success } = useSelector(
@@ -67,20 +72,14 @@ function SignIn() {
 
     const handleClick = () => setShow(!show);
 
-    React.useEffect(() => {
-        // redirect authenticated user to profile screen
-        if (success) return <Redirect to={"/admin/default"} />;
-    }, [userInfo, success]);
-
     const handleSignUp = async (e) => {
         e.preventDefault();
-
         dispatch(registerUser({ email, password, firstName, lastName }));
-
-        setIsAuth(true);
+        token = Cookies.get("jwt");
     };
 
     if (token) {
+        notify();
         return <Redirect to={"/admin/default"} />;
     }
 
@@ -99,6 +98,7 @@ function SignIn() {
                 mt={{ base: "40px", md: "10px" }}
                 flexDirection="column"
             >
+                <ToastContainer />
                 <Box me="auto">
                     <Heading color={textColor} fontSize="36px" mb="10px">
                         Регистрация

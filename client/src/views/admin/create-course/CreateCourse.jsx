@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import {
     Progress,
     Box,
@@ -17,6 +17,7 @@ import {
     Textarea,
     FormHelperText,
     InputRightElement,
+    Divider,
 } from "@chakra-ui/react";
 
 import { useToast } from "@chakra-ui/react";
@@ -47,15 +48,15 @@ const CreateCourse = () => {
     // course
     const [title, setTitle] = React.useState("");
     const [brief, setBrief] = React.useState("");
-    const [numChap, setNumChap] = React.useState(0);
+    const [numChap, setNumChap] = React.useState(1);
     const [fee, setFee] = React.useState(0);
 
     const [created, setCreated] = React.useState(false);
 
     // chapters
-    const [chap_title, setChapTitle] = React.useState("");
-    const [chap_brief, setChapBrief] = React.useState("");
-    const [chap_content, setChapContent] = React.useState("");
+    const [chapters, setChapters] = React.useState([
+        { chap_title: "", chap_brief: "", chap_content: "" },
+    ]);
 
     const handleClick = () => setShow(!show);
 
@@ -70,9 +71,107 @@ const CreateCourse = () => {
         setCreated(true);
     };
 
+    const handleAddChapter = () => {
+        setChapters((prev) => {
+            return [...prev, { title: "", brief: "", content: "" }];
+        });
+    };
+
+    const addTitle = (id, value) => {
+        const newChapters = chapters.map((chap, i) => {
+            if (i === id) {
+                return { ...chap, title: value };
+            } else {
+                return chap;
+            }
+        });
+        setChapters(newChapters);
+    };
+
+    const addBrief = (id, value) => {
+        const newChapters = chapters.map((chap, i) => {
+            if (i === id) {
+                return { ...chap, brief: value };
+            } else {
+                return chap;
+            }
+        });
+        setChapters(newChapters);
+    };
+
+    const addContent = (id, value) => {
+        const newChapters = chapters.map((chap, i) => {
+            if (i === id) {
+                return { ...chap, content: value };
+            } else {
+                return chap;
+            }
+        });
+        setChapters(newChapters);
+    };
+
+    const handleDelete = (id) => {
+        const newChapters = chapters.filter((_, idx) => idx !== id);
+        setChapters(newChapters);
+    };
+
     if (created) {
         return <Redirect to={"/admin/default"} />;
     }
+
+    const chaptersElelemnt = chapters.map((_, idx) => (
+        <Flex flexDirection={"column"} key={idx}>
+            <FormControl mt="2%">
+                <FormLabel htmlFor="" fontWeight={"normal"}>
+                    Название главы #{idx + 1}{" "}
+                </FormLabel>
+                <Input
+                    value={_.title}
+                    onChange={(e) => addTitle(idx, e.target.value)}
+                    id="first-name"
+                    placeholder="Мнемотехника"
+                />
+            </FormControl>
+            <FormControl>
+                <FormLabel htmlFor="" fontWeight={"normal"} mt="2%">
+                    Описание главы #{idx + 1}
+                </FormLabel>
+                <InputGroup size="md">
+                    <Input
+                        value={_.brief}
+                        onChange={(e) => addBrief(idx, e.target.value)}
+                        id="last-name"
+                        type={"text"}
+                        placeholder="Полезный курс для начинающих"
+                    />
+                </InputGroup>
+            </FormControl>
+            <FormControl>
+                <FormLabel htmlFor="" fontWeight={"normal"} mt="2%">
+                    Контент #{idx + 1}
+                </FormLabel>
+                <InputGroup size="md">
+                    <Textarea
+                        value={_.content}
+                        onChange={(e) => addContent(idx, e.target.value)}
+                        id="last-name"
+                        type={"text"}
+                        placeholder="Введите контент главы"
+                    />
+                </InputGroup>
+            </FormControl>
+            <br />
+            <Button
+                onClick={(e) => handleDelete(idx)}
+                w={"100%"}
+                backgroundColor={"red.300"}
+                _hover={{ backgroundColor: "red.400" }}
+            >
+                X
+            </Button>
+            <br />
+        </Flex>
+    ));
 
     return (
         <>
@@ -103,33 +202,33 @@ const CreateCourse = () => {
                 >
                     {`Курс: ${title}`}
                 </Heading>
-                <Flex>
-                    <FormControl mr="5%">
-                        <FormLabel htmlFor="first-name" fontWeight={"normal"}>
-                            Название
-                        </FormLabel>
-                        <Input
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            id="first-name"
-                            placeholder="Мнемотехника"
-                        />
-                    </FormControl>
 
-                    <FormControl>
-                        <FormLabel htmlFor="last-name" fontWeight={"normal"}>
-                            Описание
-                        </FormLabel>
-                        <Input
-                            value={brief}
-                            onChange={(e) => setBrief(e.target.value)}
-                            id="last-name"
-                            placeholder="Полезный курс для начинающих"
-                        />
-                    </FormControl>
-                </Flex>
+                <FormControl mr="5%">
+                    <FormLabel htmlFor="first-name" fontWeight={"normal"}>
+                        Название
+                    </FormLabel>
+                    <Input
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        id="first-name"
+                        placeholder="Мнемотехника"
+                    />
+                </FormControl>
+                <br />
+                <FormControl>
+                    <FormLabel htmlFor="last-name" fontWeight={"normal"}>
+                        Описание
+                    </FormLabel>
+                    <Input
+                        value={brief}
+                        onChange={(e) => setBrief(e.target.value)}
+                        id="last-name"
+                        placeholder="Полезный курс для начинающих"
+                    />
+                </FormControl>
+
                 <Flex mt={"10px"}>
-                    <FormControl mr="5%">
+                    {/* <FormControl mr="5%">
                         <FormLabel htmlFor="first-name" fontWeight={"normal"}>
                             Кол-во глав
                         </FormLabel>
@@ -140,7 +239,7 @@ const CreateCourse = () => {
                             type="number"
                             placeholder="Например: 2"
                         />
-                    </FormControl>
+                    </FormControl> */}
 
                     <FormControl>
                         <FormLabel htmlFor="last-name" fontWeight={"normal"}>
@@ -155,47 +254,13 @@ const CreateCourse = () => {
                         />
                     </FormControl>
                 </Flex>
-                <FormControl mt="2%">
-                    <FormLabel htmlFor="" fontWeight={"normal"}>
-                        Название главы
-                    </FormLabel>
-                    <Input
-                        value={chap_title}
-                        onChange={(e) => setChapTitle(e.target.value)}
-                        id="first-name"
-                        placeholder="Мнемотехника"
-                    />
-                </FormControl>
 
-                <FormControl>
-                    <FormLabel htmlFor="" fontWeight={"normal"} mt="2%">
-                        Описание главы
-                    </FormLabel>
-                    <InputGroup size="md">
-                        <Input
-                            value={chap_brief}
-                            onChange={(e) => setChapBrief(e.target.value)}
-                            id="last-name"
-                            type={"text"}
-                            placeholder="Полезный курс для начинающих"
-                        />
-                    </InputGroup>
-                </FormControl>
+                {chaptersElelemnt}
+                <br />
 
-                <FormControl>
-                    <FormLabel htmlFor="" fontWeight={"normal"} mt="2%">
-                        Контент
-                    </FormLabel>
-                    <InputGroup size="md">
-                        <Textarea
-                            value={chap_content}
-                            onChange={(e) => setChapContent(e.target.value)}
-                            id="last-name"
-                            type={"text"}
-                            placeholder="Введите контент главы"
-                        />
-                    </InputGroup>
-                </FormControl>
+                <Button onClick={handleAddChapter} colorScheme="blue">
+                    Добавить главу
+                </Button>
                 <ButtonGroup mt="5%" w="100%">
                     <Flex w="100%" justifyContent="space-between">
                         <Flex>
@@ -210,13 +275,7 @@ const CreateCourse = () => {
                                         brief,
                                         num_of_chapters: numChap,
                                         fee,
-                                        chapters: [
-                                            {
-                                                title: chap_title,
-                                                brief: chap_brief,
-                                                content: chap_content,
-                                            },
-                                        ],
+                                        chapters,
                                     });
                                 }}
                             >
