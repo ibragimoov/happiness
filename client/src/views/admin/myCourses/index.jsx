@@ -215,14 +215,14 @@ export default function MyCourses() {
                                         fontWeight="500"
                                     >
                                         У вас пока нету созданных курсов. Вы
-                                        можете создавать их в{" "}
+                                        можете создавать их{" "}
                                         <NavLink
                                             to={"/admin/create-course"}
                                             style={{
                                                 color: "blue",
                                             }}
                                         >
-                                            каталоге
+                                            тут
                                         </NavLink>
                                     </Text>
                                 </>

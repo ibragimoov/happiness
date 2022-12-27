@@ -1,0 +1,41 @@
+.root {
+    display: flex;
+    flex-direction: row;
+
+    li {
+        display: inline-flex;
+        user-select: none;
+
+        &.selected {
+            a {
+                background-color: rgb(89, 89, 228);
+                color: white;
+            }
+        }
+
+        a {
+            display: flex;
+            color: blue;
+            text-align: center;
+            padding: 10px;
+            align-items: center;
+            border: 2px solid rgb(34, 34, 177);
+            border-radius: 15px;
+            list-style-type: none;
+            justify-content: center;
+            align-self: center;
+            width: 60px;
+            height: 40px;
+            margin-right: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.5s all;
+            user-select: none;
+
+            &:hover {
+                background-color: rgb(89, 89, 228);
+                color: white;
+            }
+        }
+    }
+}

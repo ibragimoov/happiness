@@ -29,6 +29,14 @@ import EditCourse from "views/admin/edit-course/CreateCourse";
 
 const routes = [
     {
+        name: "Глава",
+        layout: "/admin",
+        path: "/course/:courseId/chapter/:id",
+        icon: <Icon as={ImBook} width="20px" height="20px" color="inherit" />,
+        component: Chapter,
+        secondary: true,
+    },
+    {
         name: "Дом",
         layout: "/home",
         path: "/default",
@@ -109,14 +117,6 @@ const routes = [
         path: "/watchCourse/",
         icon: <Icon as={ImBook} width="20px" height="20px" color="inherit" />,
         component: WatchCourse,
-        secondary: true,
-    },
-    {
-        name: "Глава",
-        layout: "/admin",
-        path: "/chapter/",
-        icon: <Icon as={ImBook} width="20px" height="20px" color="inherit" />,
-        component: Chapter,
         secondary: true,
     },
     {

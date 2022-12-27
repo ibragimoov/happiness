@@ -75,7 +75,6 @@ export default function ColumnsTable(props) {
                 >
                     Мои курсы
                 </Text>
-                {/* <Menu /> */}
             </Flex>
             <Table
                 {...getTableProps()}

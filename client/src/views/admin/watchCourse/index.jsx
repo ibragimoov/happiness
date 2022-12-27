@@ -36,7 +36,7 @@ import { tableColumnsTopCreators } from "views/admin/marketplace/variables/table
 
 import { Container, Heading, Stack, Icon, IconProps } from "@chakra-ui/react";
 
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useParams } from "react-router-dom";
 import axios from "../../../utils/axios";
 import Statistics from "./components/Statistics";
 import Contact from "./components/Contact";
@@ -86,8 +86,8 @@ export default function WatchCourse() {
     }, []);
 
     const chaptersElelemnt = courseInfo.chapters?.map((chap) => (
-        <NavLink to={`/admin/chapter/${chap.id}`}>
-            <StatsCard key={chap.id} stat={chap.title} />
+        <NavLink key={chap.id} to={`/admin/course/${id}/chapter/${chap.id}`}>
+            <StatsCard stat={chap.title} />
         </NavLink>
     ));
 

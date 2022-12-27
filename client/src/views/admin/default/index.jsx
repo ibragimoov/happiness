@@ -38,6 +38,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "../../../redux/slices/user.slice";
 import Cookies from "js-cookie";
 import { Redirect } from "react-router-dom";
+import axios from "../../../utils/axios";
+import * as moment from "moment";
 
 export default function UserReports() {
     // Chakra Color Mode
@@ -48,13 +50,41 @@ export default function UserReports() {
     const token = Cookies.get("jwt");
     const dispatch = useDispatch();
 
+    const [ownCourses, setOwnCourses] = React.useState([]);
+    const getOwnCourses = async () => {
+        const config = {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+        };
+
+        const { data } = await axios.post(
+            `/user/ownCourses`,
+            { email: userInfo.email },
+            config
+        );
+        setOwnCourses(data);
+    };
+
     React.useEffect(() => {
+        getOwnCourses();
         dispatch(getUserDetails());
     }, []);
 
     if (!token) {
         return <Redirect to={"/auth/signIn"} />;
     }
+
+    console.log(ownCourses);
+
+    const tableData = [];
+
+    ownCourses.forEach((own) => {
+        tableData.push({
+            name: own.course.title,
+            date: moment(own.enrollment_date).format("D MMM YYYY"),
+            progress: 0,
+        });
+    });
 
     return (
         <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
@@ -123,7 +153,7 @@ export default function UserReports() {
                 </SimpleGrid>
                 <ComplexTable
                     columnsData={columnsDataComplex}
-                    tableData={tableDataComplex}
+                    tableData={tableData}
                 />
             </SimpleGrid>
 

@@ -14,48 +14,35 @@ import {
     SimpleGrid,
 } from "@chakra-ui/react";
 
-// Custom components
-import Banner from "views/admin/marketplace/components/Banner";
-import TableTopCreators from "views/admin/marketplace/components/TableTopCreators";
-import HistoryItem from "views/admin/marketplace/components/HistoryItem";
-import NFT from "components/card/NFT";
-import Card from "components/card/Card.js";
-
-// Assets
-import Nft1 from "assets/img/nfts/Nft1.png";
-import Nft2 from "assets/img/nfts/Nft2.png";
-import Nft3 from "assets/img/nfts/Nft3.png";
-import Nft4 from "assets/img/nfts/Nft4.png";
-import Nft5 from "assets/img/nfts/Nft5.png";
-import Nft6 from "assets/img/nfts/Nft6.png";
-import Avatar1 from "assets/img/avatars/avatar1.png";
-import Avatar2 from "assets/img/avatars/avatar2.png";
-import Avatar3 from "assets/img/avatars/avatar3.png";
-import Avatar4 from "assets/img/avatars/avatar4.png";
-import tableDataTopCreators from "views/admin/marketplace/variables/tableDataTopCreators.json";
-import { tableColumnsTopCreators } from "views/admin/marketplace/variables/tableColumnsTopCreators";
-
 import { Container, Heading, Stack, Icon, IconProps } from "@chakra-ui/react";
 
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useParams } from "react-router-dom";
 import axios from "../../../utils/axios";
 import Statistics from "./components/Statistics";
 import Contact from "./components/Contact";
 import { StatsCard } from "./components/Statistics";
 
 import { useSelector } from "react-redux";
+import Pagination from "./components/Pagination";
 
 export default function Chapter() {
     // Chakra Color Mode
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const textColorBrand = useColorModeValue("brand.500", "white");
 
-    const location = useLocation();
-    const id = location.pathname.replace(/[^0-9]/g, "");
+    // const location = useLocation();
+    // const id = location.pathname;
+    const { courseId, id } = useParams();
 
-    const [courseInfo, setCourseInfo] = React.useState({});
+    const [chapters, setChapters] = React.useState([]);
+    const [chapterInfo, setChapterInfo] = React.useState({});
     const [disabled, setDisabled] = React.useState(false);
     const [errors, setErrors] = React.useState("");
+
+    // pagination
+    const [currentPage, setCurrentPage] = React.useState(1);
+    const [nextPage, setNextPage] = React.useState();
+    const [prevPage, setPrevPage] = React.useState();
 
     const { success, loading, userInfo, error } = useSelector(
         (state) => state.user
@@ -68,29 +55,38 @@ export default function Chapter() {
         };
 
         const { data } = await axios.get(`/course/chapter/${id}`, config);
-        setCourseInfo(data);
+        setChapterInfo(data);
     };
 
-    async function ownCourse() {
+    const getCourse = async () => {
         const config = {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
         };
-        await axios
-            .post(`/course/subscription/${id}`, userInfo, config)
-            .catch((e) => setErrors(e.response.data));
-        setDisabled(true);
-    }
+
+        const { data } = await axios.get(`/course/${courseId}`, config);
+
+        setChapters(data.chapters);
+    };
 
     React.useEffect(() => {
         getOneCourse();
+        getCourse();
+        const data = chapters.forEach((c, i) => {
+            if (c === chapterInfo) {
+                setCurrentPage(i);
+            }
+        });
     }, []);
 
-    const chaptersElelemnt = courseInfo.chapters?.map((chap) => (
-        <NavLink to={"/admin/default"}>
-            <StatsCard key={chap.id} stat={chap.title} />
-        </NavLink>
-    ));
+    React.useEffect(() => {
+        window.scrollTo(0, 0);
+        getCourse();
+
+        const data = chapters[currentPage - 1];
+        setChapterInfo(data);
+        console.log(chapters[currentPage - 1]);
+    }, [currentPage]);
 
     return (
         <Container maxW={"3xl"}>
@@ -107,19 +103,24 @@ export default function Chapter() {
                     fontSize={{ base: "3xl", sm: "4xl", md: "6xl" }}
                     lineHeight={"110%"}
                 >
-                    {courseInfo?.title}
+                    {chapterInfo?.title}
                     <br />
                     <Text
                         fontSize={{ base: "3xl", sm: "4xl", md: "4xl" }}
                         as={"span"}
                         color={"blue.400"}
                     >
-                        {courseInfo?.brief}
+                        {chapterInfo?.brief}
                     </Text>
                 </Heading>
-                <Text textAlign={"justify"} fontSize={"2xl"} color={"gray.700"}>
-                    <ReactMarkdown children={courseInfo.content} />,
+                <Text maxW={"100%"} fontSize={"2xl"} color={"gray.700"}>
+                    <ReactMarkdown children={chapterInfo?.content} />
                 </Text>
+                <Pagination
+                    backgroundColor={"black"}
+                    pageCount={chapters.length}
+                    onPageChange={(number) => setCurrentPage(number)}
+                />
                 {errors && (
                     <Text color={"red.500"} fontSize={"3xl"} mw={"3xl"}>
                         {errors.message} :(
