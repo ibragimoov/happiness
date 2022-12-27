@@ -25,6 +25,8 @@ import { StatsCard } from "./components/Statistics";
 import { useSelector } from "react-redux";
 import Pagination from "./components/Pagination";
 
+import { Skeleton, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
+
 export default function Chapter() {
     // Chakra Color Mode
     const textColor = useColorModeValue("secondaryGray.900", "white");
@@ -69,14 +71,18 @@ export default function Chapter() {
         setChapters(data.chapters);
     };
 
+    const check = async (chapterId) => {
+        const config = {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+        };
+
+        await axios.post(`/course/check/${chapterId}`, config);
+    };
+
     React.useEffect(() => {
         getOneCourse();
-        getCourse();
-        const data = chapters.forEach((c, i) => {
-            if (c === chapterInfo) {
-                setCurrentPage(i);
-            }
-        });
+        check(id);
     }, []);
 
     React.useEffect(() => {
@@ -84,8 +90,10 @@ export default function Chapter() {
         getCourse();
 
         const data = chapters[currentPage - 1];
+
+        check(data?.id);
+
         setChapterInfo(data);
-        console.log(chapters[currentPage - 1]);
     }, [currentPage]);
 
     return (

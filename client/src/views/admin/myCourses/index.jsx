@@ -35,7 +35,9 @@ import { tableColumnsTopCreators } from "views/admin/marketplace/variables/table
 import { NavLink, Redirect } from "react-router-dom";
 import Cookies from "js-cookie";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserDetails } from "../../../redux/slices/user.slice";
+
 import axios from "../../../utils/axios";
 
 export default function MyCourses() {
@@ -45,48 +47,54 @@ export default function MyCourses() {
 
     const [ownCourses, setOwnCourses] = React.useState([]);
     const [createdCourses, setCreatedCourses] = React.useState([]);
-    const { success, loading, userInfo, error } = useSelector(
-        (state) => state.user
-    );
+    const { userInfo, userToken } = useSelector((state) => state.user);
 
-    const getOwnCourses = async () => {
-        const config = {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-        };
+    const dispatch = useDispatch();
 
-        const { data } = await axios.post(
-            `/user/ownCourses`,
-            { email: userInfo.email },
-            config
-        );
-        setOwnCourses(data);
+    const getOwnCourses = async (userInfo) => {
+        if (userInfo.email === undefined) {
+            return;
+        } else {
+            const config = {
+                headers: { "Content-Type": "application/json" },
+                withCredentials: true,
+            };
+
+            const { data } = await axios.post(
+                `/user/ownCourses`,
+                { email: userInfo.email },
+                config
+            );
+            setOwnCourses(data);
+        }
     };
 
-    const getCreatedCourses = async () => {
-        const config = {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-        };
+    const getCreatedCourses = async (userInfo) => {
+        if (userInfo.email === undefined) {
+            return;
+        } else {
+            const config = {
+                headers: { "Content-Type": "application/json" },
+                withCredentials: true,
+            };
 
-        const { data } = await axios.post(
-            `/user/createdCourses`,
-            { email: userInfo.email },
-            config
-        );
-        setCreatedCourses(data);
+            const { data } = await axios.post(
+                `/user/createdCourses`,
+                { email: userInfo.email },
+                config
+            );
+            setCreatedCourses(data);
+        }
     };
 
     React.useEffect(() => {
-        getOwnCourses();
-        getCreatedCourses();
+        dispatch(getUserDetails());
     }, []);
 
-    const token = Cookies.get("jwt");
-
-    if (!token) {
-        return <Redirect to={"/"} />;
-    }
+    React.useEffect(() => {
+        getOwnCourses(userInfo);
+        getCreatedCourses(userInfo);
+    }, [userInfo]);
 
     return (
         <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>

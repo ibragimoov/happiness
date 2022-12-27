@@ -51,6 +51,8 @@ export default function UserReports() {
     const dispatch = useDispatch();
 
     const [ownCourses, setOwnCourses] = React.useState([]);
+    const [tableData, setTableData] = React.useState([]);
+
     const getOwnCourses = async () => {
         const config = {
             headers: { "Content-Type": "application/json" },
@@ -66,26 +68,48 @@ export default function UserReports() {
     };
 
     React.useEffect(() => {
-        getOwnCourses();
         dispatch(getUserDetails());
     }, []);
+
+    React.useEffect(() => {
+        getOwnCourses();
+    }, [userInfo]);
+
+    React.useEffect(() => {
+        setTable(ownCourses);
+    }, [ownCourses]);
+
+    const setTable = async (ownCourses) => {
+        let newTable = await Promise.all(
+            ownCourses.map(async (own) => {
+                let k = 0;
+                let learningProgress = 0;
+                learningProgress = await axios
+                    .get(`/course/${own.course.id}`)
+                    .then((res) => {
+                        const { chapters } = res.data;
+                        chapters.forEach(async (chap) => {
+                            if (chap.isChecked) {
+                                k++;
+                            }
+                        });
+                        return (learningProgress = (k / chapters.length) * 100);
+                    });
+                console.log(learningProgress);
+                return {
+                    name: own.course.title,
+                    date: moment(own.enrollment_date).format("D MMM YYYY"),
+                    progress: learningProgress,
+                };
+            })
+        );
+
+        setTableData(newTable);
+    };
 
     if (!token) {
         return <Redirect to={"/auth/signIn"} />;
     }
-
-    console.log(ownCourses);
-
-    const tableData = [];
-
-    ownCourses.forEach((own) => {
-        tableData.push({
-            name: own.course.title,
-            date: moment(own.enrollment_date).format("D MMM YYYY"),
-            progress: 0,
-        });
-    });
-
     return (
         <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
             <SimpleGrid
