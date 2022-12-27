@@ -8,11 +8,10 @@ import {
     useColorModeValue,
 } from "@chakra-ui/react";
 
-function StatsCard(props) {
+export function StatsCard(props) {
     const { title, stat } = props;
     return (
         <Stat
-            wx={"100px"}
             px={{ base: 4, md: 8 }}
             py={"5"}
             shadow={"xl"}
@@ -49,7 +48,7 @@ export default function Statistics() {
                 py={10}
                 fontWeight={"bold"}
             >
-                На этом курсе Вы:
+                Главы
             </chakra.h1>
             <SimpleGrid
                 columns={{ base: 1, md: 3 }}

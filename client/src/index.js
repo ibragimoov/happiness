@@ -12,6 +12,7 @@ import Course from "views/admin/course";
 
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
+import EditCourse from "views/admin/edit-course/CreateCourse";
 
 ReactDOM.render(
     <Provider store={store}>

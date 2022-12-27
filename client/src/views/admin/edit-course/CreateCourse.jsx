@@ -26,12 +26,12 @@ import { useToast } from "@chakra-ui/react";
 import axios from "../../../utils/axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "../../../redux/slices/user.slice";
-import { Redirect } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 
-const CreateCourse = () => {
+const EditCourse = () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const toast = useToast();
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -45,8 +45,25 @@ const CreateCourse = () => {
     const { email } = userInfo;
     const dispatch = useDispatch();
 
+    const { id } = useParams();
+
     React.useEffect(() => {
+        window.scrollTo(0, 0);
         dispatch(getUserDetails());
+
+        if (id) {
+            const config = {
+                headers: { "Content-Type": "application/json" },
+                withCredentials: true,
+            };
+
+            axios.get(`/course/${id}`, config).then((res) => {
+                setChapters(res.data.chapters);
+                setTitle(res.data.title);
+                setBrief(res.data.brief);
+                setFee(res.data.fee);
+            });
+        }
     }, []);
 
     // course
@@ -64,14 +81,14 @@ const CreateCourse = () => {
 
     const handleClick = () => setShow(!show);
 
-    const createCourse = async (data) => {
-        await axios.post("/course", data);
+    const updateCourse = async (data) => {
+        await axios.put(`/course/${id}`, data);
     };
 
     const handleSubmit = (e, data) => {
         e.preventDefault();
 
-        createCourse({ ...data, user_id: userInfo.id });
+        updateCourse({ ...data });
         setCreated(true);
     };
 
@@ -290,7 +307,7 @@ const CreateCourse = () => {
                                     });
                                 }}
                             >
-                                Создать курс
+                                Обновить курс
                             </Button>
                         </Flex>
                     </Flex>
@@ -300,4 +317,4 @@ const CreateCourse = () => {
     );
 };
 
-export default CreateCourse;
+export default EditCourse;

@@ -321,7 +321,7 @@ export default function HeaderLinks(props) {
                             px="14px"
                         >
                             <Text onClick={handleLogout} fontSize="sm">
-                                Log out
+                                Выйти
                             </Text>
                         </MenuItem>
                     </Flex>

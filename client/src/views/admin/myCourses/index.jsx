@@ -32,7 +32,8 @@ import Avatar3 from "assets/img/avatars/avatar3.png";
 import Avatar4 from "assets/img/avatars/avatar4.png";
 import tableDataTopCreators from "views/admin/marketplace/variables/tableDataTopCreators.json";
 import { tableColumnsTopCreators } from "views/admin/marketplace/variables/tableColumnsTopCreators";
-import { NavLink } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
+import Cookies from "js-cookie";
 
 import { useSelector } from "react-redux";
 import axios from "../../../utils/axios";
@@ -43,6 +44,7 @@ export default function MyCourses() {
     const textColorBrand = useColorModeValue("brand.500", "white");
 
     const [ownCourses, setOwnCourses] = React.useState([]);
+    const [createdCourses, setCreatedCourses] = React.useState([]);
     const { success, loading, userInfo, error } = useSelector(
         (state) => state.user
     );
@@ -61,9 +63,30 @@ export default function MyCourses() {
         setOwnCourses(data);
     };
 
+    const getCreatedCourses = async () => {
+        const config = {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+        };
+
+        const { data } = await axios.post(
+            `/user/createdCourses`,
+            { email: userInfo.email },
+            config
+        );
+        setCreatedCourses(data);
+    };
+
     React.useEffect(() => {
         getOwnCourses();
+        getCreatedCourses();
     }, []);
+
+    const token = Cookies.get("jwt");
+
+    if (!token) {
+        return <Redirect to={"/"} />;
+    }
 
     return (
         <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
@@ -101,8 +124,7 @@ export default function MyCourses() {
                                     >
                                         <NFT
                                             name={own.course.title}
-                                            author={`${own.user.first_name}     
-                                                ${own.user.last_name}`}
+                                            author={`${own.author_name}`}
                                             bidders={[
                                                 Avatar1,
                                                 Avatar2,
@@ -121,57 +143,25 @@ export default function MyCourses() {
                                 ))
                             ) : (
                                 <>
-                                    <NFT
-                                        name="Мнемотехники"
-                                        author="От Усние Бекировой"
-                                        bidders={[
-                                            Avatar1,
-                                            Avatar2,
-                                            Avatar3,
-                                            Avatar4,
-                                            Avatar1,
-                                            Avatar1,
-                                            Avatar1,
-                                            Avatar1,
-                                        ]}
-                                        image={Nft1}
-                                        currentbid="0.91 ETH"
-                                        download="#"
-                                    />
-                                    <NFT
-                                        name="Самопознание"
-                                        author="От Эмирова Эльдара"
-                                        bidders={[
-                                            Avatar1,
-                                            Avatar2,
-                                            Avatar3,
-                                            Avatar4,
-                                            Avatar1,
-                                            Avatar1,
-                                            Avatar1,
-                                            Avatar1,
-                                        ]}
-                                        image={Nft2}
-                                        currentbid="0.91 ETH"
-                                        download="#"
-                                    />
-                                    <NFT
-                                        name="Психическая саморегуляция"
-                                        author="От Усние Бекировой"
-                                        bidders={[
-                                            Avatar1,
-                                            Avatar2,
-                                            Avatar3,
-                                            Avatar4,
-                                            Avatar1,
-                                            Avatar1,
-                                            Avatar1,
-                                            Avatar1,
-                                        ]}
-                                        image={Nft3}
-                                        currentbid="0.91 ETH"
-                                        download="#"
-                                    />
+                                    <Text
+                                        mb="36px"
+                                        maxW={"300px"}
+                                        color={textColor}
+                                        fontSize="1xl"
+                                        ms="24px"
+                                        fontWeight="500"
+                                    >
+                                        У вас пока нету курсов. Вы можете
+                                        приобрести их в{" "}
+                                        <NavLink
+                                            to={"/admin/catalog"}
+                                            style={{
+                                                color: "blue",
+                                            }}
+                                        >
+                                            каталоге
+                                        </NavLink>
+                                    </Text>
                                 </>
                             )}
                         </SimpleGrid>
@@ -190,59 +180,53 @@ export default function MyCourses() {
                             gap="20px"
                             mb={{ base: "20px", xl: "0px" }}
                         >
-                            <NFT
-                                name="Сам себе психолог"
-                                author="От Усние Бекировой"
-                                bidders={[
-                                    Avatar1,
-                                    Avatar2,
-                                    Avatar3,
-                                    Avatar4,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                ]}
-                                image={Nft4}
-                                currentbid="0.91 ETH"
-                                download="#"
-                            />
-                            <NavLink to={`/admin/course/${1}`}>
-                                <NFT
-                                    name="Сторителлинг"
-                                    author="От Кристины Безбородовой"
-                                    bidders={[
-                                        Avatar1,
-                                        Avatar2,
-                                        Avatar3,
-                                        Avatar4,
-                                        Avatar1,
-                                        Avatar1,
-                                        Avatar1,
-                                        Avatar1,
-                                    ]}
-                                    image={Nft5}
-                                    currentbid="0.91 ETH"
-                                    download="#"
-                                />
-                            </NavLink>
-                            <NFT
-                                name="Профайлинг"
-                                author="От Кристины Безбородовой"
-                                bidders={[
-                                    Avatar1,
-                                    Avatar2,
-                                    Avatar3,
-                                    Avatar4,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                    Avatar1,
-                                ]}
-                                image={Nft6}
-                                currentbid="0.91 ETH"
-                                download="#"
-                            />
+                            {createdCourses.length !== 0 ? (
+                                createdCourses.map((created) => (
+                                    <NavLink
+                                        key={created.id}
+                                        to={`/admin/watchCourse/${created.id}/edit`}
+                                    >
+                                        <NFT
+                                            name={created.title}
+                                            bidders={[
+                                                Avatar1,
+                                                Avatar2,
+                                                Avatar3,
+                                                Avatar4,
+                                                Avatar1,
+                                                Avatar1,
+                                                Avatar1,
+                                                Avatar1,
+                                            ]}
+                                            image={Nft1}
+                                            currentbid={created.fee}
+                                            download="#"
+                                        />
+                                    </NavLink>
+                                ))
+                            ) : (
+                                <>
+                                    <Text
+                                        mb="36px"
+                                        maxW={"300px"}
+                                        color={textColor}
+                                        fontSize="1xl"
+                                        ms="24px"
+                                        fontWeight="500"
+                                    >
+                                        У вас пока нету созданных курсов. Вы
+                                        можете создавать их в{" "}
+                                        <NavLink
+                                            to={"/admin/create-course"}
+                                            style={{
+                                                color: "blue",
+                                            }}
+                                        >
+                                            каталоге
+                                        </NavLink>
+                                    </Text>
+                                </>
+                            )}
                         </SimpleGrid>
                     </Flex>
                 </Flex>

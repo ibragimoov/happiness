@@ -1,4 +1,5 @@
 import React from "react";
+import ReactMarkdown from "react-markdown";
 
 // Chakra imports
 import {
@@ -44,7 +45,7 @@ import { StatsCard } from "./components/Statistics";
 
 import { useSelector } from "react-redux";
 
-export default function WatchCourse() {
+export default function Chapter() {
     // Chakra Color Mode
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const textColorBrand = useColorModeValue("brand.500", "white");
@@ -66,7 +67,7 @@ export default function WatchCourse() {
             withCredentials: true,
         };
 
-        const { data } = await axios.get(`/course/${id}`, config);
+        const { data } = await axios.get(`/course/chapter/${id}`, config);
         setCourseInfo(data);
     };
 
@@ -86,7 +87,7 @@ export default function WatchCourse() {
     }, []);
 
     const chaptersElelemnt = courseInfo.chapters?.map((chap) => (
-        <NavLink to={`/admin/chapter/${chap.id}`}>
+        <NavLink to={"/admin/default"}>
             <StatsCard key={chap.id} stat={chap.title} />
         </NavLink>
     ));
@@ -94,7 +95,7 @@ export default function WatchCourse() {
     return (
         <Container maxW={"3xl"}>
             <Stack
-                textAlign={"cente"}
+                textAlign={"center"}
                 align={"center"}
                 spacing={{ base: 8, md: 10 }}
                 py={{ base: 20, md: 28 }}
@@ -116,9 +117,8 @@ export default function WatchCourse() {
                         {courseInfo?.brief}
                     </Text>
                 </Heading>
-                <Text color={"gray.500"} maxW={"3xl"}>
-                    Никогда не пропускайте ни одной встречи. Никогда не
-                    опаздывай на один из них.
+                <Text textAlign={"justify"} fontSize={"2xl"} color={"gray.700"}>
+                    <ReactMarkdown children={courseInfo.content} />,
                 </Text>
                 {errors && (
                     <Text color={"red.500"} fontSize={"3xl"} mw={"3xl"}>
@@ -126,19 +126,6 @@ export default function WatchCourse() {
                     </Text>
                 )}
             </Stack>
-            <Box maxW="7xl" mx={"auto"} pt={0} px={{ base: 2, sm: 12, md: 17 }}>
-                <chakra.h1
-                    textAlign={"center"}
-                    fontSize={"5xl"}
-                    py={10}
-                    fontWeight={"bold"}
-                >
-                    Главы
-                </chakra.h1>
-                <SimpleGrid columns={{ base: 1 }} spacing={{ base: 5, lg: 8 }}>
-                    {chaptersElelemnt}
-                </SimpleGrid>
-            </Box>
         </Container>
     );
 }
