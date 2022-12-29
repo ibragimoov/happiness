@@ -13,6 +13,7 @@ import {
     Button,
 } from "@chakra-ui/react";
 import { FaCheckCircle } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
 function PriceWrapper(props) {
     return (
@@ -79,13 +80,15 @@ const Pricing = () => {
                             </ListItem>
                         </List>
                         <Box w="80%" pt={7}>
-                            <Button
-                                w="full"
-                                colorScheme="blue"
-                                variant="outline"
-                            >
-                                Попробовать
-                            </Button>
+                            <NavLink to={"/auth/signup"}>
+                                <Button
+                                    w="full"
+                                    colorScheme="blue"
+                                    variant="outline"
+                                >
+                                    Попробовать
+                                </Button>
+                            </NavLink>
                         </Box>
                     </VStack>
                 </PriceWrapper>
@@ -152,9 +155,11 @@ const Pricing = () => {
                                 </ListItem>
                             </List>
                             <Box w="80%" pt={7}>
-                                <Button w="full" colorScheme="blue">
-                                    Попробовать
-                                </Button>
+                                <NavLink to={"/auth/signup"}>
+                                    <Button w="full" colorScheme="blue">
+                                        Попробовать
+                                    </Button>
+                                </NavLink>
                             </Box>
                         </VStack>
                     </Box>
@@ -205,13 +210,15 @@ const Pricing = () => {
                             </ListItem>
                         </List>
                         <Box w="80%" pt={7}>
-                            <Button
-                                w="full"
-                                colorScheme="blue"
-                                variant="outline"
-                            >
-                                Попробовать
-                            </Button>
+                            <NavLink to={"/auth/signup"}>
+                                <Button
+                                    w="full"
+                                    colorScheme="blue"
+                                    variant="outline"
+                                >
+                                    Попробовать
+                                </Button>
+                            </NavLink>
                         </Box>
                     </VStack>
                 </PriceWrapper>
