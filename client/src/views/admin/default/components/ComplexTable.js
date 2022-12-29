@@ -23,6 +23,13 @@ import {
 import Card from "components/card/Card";
 import Menu from "components/menu/MainMenu";
 
+import {
+    Skeleton,
+    SkeletonCircle,
+    SkeletonText,
+    Stack,
+} from "@chakra-ui/react";
+
 // Assets
 import { MdCheckCircle, MdCancel, MdOutlineError } from "react-icons/md";
 export default function ColumnsTable(props) {
@@ -153,7 +160,6 @@ export default function ColumnsTable(props) {
                                     }
                                     return (
                                         <Td
-                                            {...cell.getCellProps()}
                                             key={index}
                                             fontSize={{ sm: "14px" }}
                                             maxH="30px !important"
@@ -165,7 +171,24 @@ export default function ColumnsTable(props) {
                                             }}
                                             borderColor="transparent"
                                         >
-                                            {data}
+                                            {data
+                                                ? data
+                                                : [...new Array(3)].map(
+                                                      (_, i) => (
+                                                          <Stack
+                                                              key={i}
+                                                              mt={"5px"}
+                                                          >
+                                                              <Skeleton
+                                                                  height="10px"
+                                                                  borderRadius={
+                                                                      "25px"
+                                                                  }
+                                                                  mb={"15px"}
+                                                              />
+                                                          </Stack>
+                                                      )
+                                                  )}
                                         </Td>
                                     );
                                 })}

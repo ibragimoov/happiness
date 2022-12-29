@@ -7,7 +7,10 @@ export const registerUser = createAsyncThunk(
     // action type string
     "user/register",
     // callback function
-    async ({ firstName, lastName, email, password }, { rejectWithValue }) => {
+    async (
+        { firstName, lastName, email, password, isTeacher },
+        { rejectWithValue }
+    ) => {
         try {
             // configure header's Content-Type as JSON
             const config = {
@@ -19,7 +22,13 @@ export const registerUser = createAsyncThunk(
             // make request to backend
             const { data } = await axios.post(
                 "/auth/registration",
-                { email, password, first_name: firstName, last_name: lastName },
+                {
+                    email,
+                    password,
+                    first_name: firstName,
+                    last_name: lastName,
+                    isTeacher,
+                },
                 config
             );
             Cookies.set("jwt", data.token);

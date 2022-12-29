@@ -1,6 +1,8 @@
 /* eslint-disable */
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserDetails } from "../../../redux/slices/user.slice";
 // chakra imports
 import { Box, Flex, HStack, Text, useColorModeValue } from "@chakra-ui/react";
 
@@ -15,6 +17,13 @@ export function SidebarLinks(props) {
     let activeIcon = useColorModeValue("brand.500", "white");
     let textColor = useColorModeValue("secondaryGray.500", "white");
     let brandColor = useColorModeValue("brand.500", "brand.400");
+
+    const dispatch = useDispatch();
+    const { userInfo, userToken } = useSelector((state) => state.user);
+
+    React.useEffect(() => {
+        dispatch(getUserDetails());
+    }, []);
 
     const { routes } = props;
 
@@ -34,6 +43,16 @@ export function SidebarLinks(props) {
                 route.name !== "Глава" &&
                 route.name !== "Изменение курса"
         );
+
+        if (!userInfo.isTeacher) {
+            routes = routes.filter(
+                (route) =>
+                    route.name !== "Курс" &&
+                    route.name !== "Глава" &&
+                    route.name !== "Изменение курса" &&
+                    route.name !== "Создание курса"
+            );
+        }
 
         return routes.map((route, index) => {
             if (route.category) {

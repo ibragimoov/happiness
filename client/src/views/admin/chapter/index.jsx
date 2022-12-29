@@ -111,18 +111,50 @@ export default function Chapter() {
                     fontSize={{ base: "3xl", sm: "4xl", md: "6xl" }}
                     lineHeight={"110%"}
                 >
-                    {chapterInfo?.title}
+                    {chapterInfo ? (
+                        chapterInfo?.title
+                    ) : (
+                        <Skeleton h={"60px"} borderRadius={"15px"}>
+                            <div>won't be visible</div>
+                        </Skeleton>
+                    )}
                     <br />
                     <Text
                         fontSize={{ base: "3xl", sm: "4xl", md: "4xl" }}
                         as={"span"}
                         color={"blue.400"}
                     >
-                        {chapterInfo?.brief}
+                        {chapterInfo ? (
+                            chapterInfo?.brief
+                        ) : (
+                            <Skeleton h={"60px"} borderRadius={"15px"}>
+                                <div>won't be visible</div>
+                            </Skeleton>
+                        )}
                     </Text>
                 </Heading>
-                <Text maxW={"100%"} fontSize={"2xl"} color={"gray.700"}>
-                    <ReactMarkdown children={chapterInfo?.content} />
+                <Text fontSize={"2xl"} color={"gray.700"}>
+                    {chapterInfo ? (
+                        <ReactMarkdown children={chapterInfo?.content} />
+                    ) : (
+                        [...new Array(6)].map((_, i) => (
+                            <Stack>
+                                <SkeletonText
+                                    width={{
+                                        base: "100%",
+                                        sm: "300px",
+                                        md: "600px",
+                                    }}
+                                    key={i}
+                                    borderRadius={"15px"}
+                                >
+                                    <div>contents wrapped</div>
+                                    <div>won't be visible</div>
+                                </SkeletonText>
+                                <br />
+                            </Stack>
+                        ))
+                    )}
                 </Text>
                 <Pagination
                     backgroundColor={"black"}

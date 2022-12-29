@@ -41,6 +41,13 @@ import { Redirect } from "react-router-dom";
 import axios from "../../../utils/axios";
 import * as moment from "moment";
 
+import {
+    Skeleton,
+    SkeletonCircle,
+    SkeletonText,
+    Stack,
+} from "@chakra-ui/react";
+
 export default function UserReports() {
     // Chakra Color Mode
     const brandColor = useColorModeValue("brand.500", "white");
@@ -52,6 +59,8 @@ export default function UserReports() {
 
     const [ownCourses, setOwnCourses] = React.useState([]);
     const [tableData, setTableData] = React.useState([]);
+    const [chaptersDone, setChaptersDone] = React.useState(0);
+    const [coursesDone, setCoursesDone] = React.useState(0);
 
     const getOwnCourses = async () => {
         const config = {
@@ -80,6 +89,7 @@ export default function UserReports() {
     }, [ownCourses]);
 
     const setTable = async (ownCourses) => {
+        let c = 0;
         let newTable = await Promise.all(
             ownCourses.map(async (own) => {
                 let k = 0;
@@ -93,9 +103,10 @@ export default function UserReports() {
                                 k++;
                             }
                         });
+                        setChaptersDone(k);
                         return (learningProgress = (k / chapters.length) * 100);
                     });
-                console.log(learningProgress);
+                if (learningProgress === 100) c++;
                 return {
                     name: own.course.title,
                     date: moment(own.enrollment_date).format("D MMM YYYY"),
@@ -103,7 +114,7 @@ export default function UserReports() {
                 };
             })
         );
-
+        setCoursesDone(c);
         setTableData(newTable);
     };
 
@@ -134,7 +145,7 @@ export default function UserReports() {
                         />
                     }
                     name="Пройдено курсов"
-                    value="0"
+                    value={coursesDone}
                 />
                 <MiniStatistics
                     startContent={
@@ -152,11 +163,10 @@ export default function UserReports() {
                             }
                         />
                     }
-                    name="Выполнено заданий"
-                    value="0"
+                    name="Пройдено глав"
+                    value={chaptersDone}
                 />
             </SimpleGrid>
-
             {/* <SimpleGrid
                 columns={{ base: 1, md: 2, xl: 2 }}
                 gap="20px"
@@ -164,8 +174,7 @@ export default function UserReports() {
             >
                 <TotalSpent />
                 <WeeklyRevenue />
-            </SimpleGrid> */}
-
+            </SimpleGrid> */}{" "}
             <SimpleGrid
                 columns={{ base: 1, md: 1, xl: 2 }}
                 gap="20px"
@@ -180,7 +189,6 @@ export default function UserReports() {
                     tableData={tableData}
                 />
             </SimpleGrid>
-
             <SimpleGrid
                 columns={{ base: 1, md: 1, xl: 2 }}
                 gap="20px"

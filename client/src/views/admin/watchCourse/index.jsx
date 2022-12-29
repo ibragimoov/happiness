@@ -43,6 +43,7 @@ import Contact from "./components/Contact";
 import { StatsCard } from "./components/Statistics";
 
 import { useSelector } from "react-redux";
+import { Skeleton, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 
 export default function WatchCourse() {
     // Chakra Color Mode
@@ -106,14 +107,26 @@ export default function WatchCourse() {
                     fontSize={{ base: "3xl", sm: "4xl", md: "6xl" }}
                     lineHeight={"110%"}
                 >
-                    {courseInfo?.title}
+                    {courseInfo ? (
+                        courseInfo?.title
+                    ) : (
+                        <Skeleton h={"60px"} borderRadius={"15px"}>
+                            <div>won't be visible</div>
+                        </Skeleton>
+                    )}
                     <br />
                     <Text
                         fontSize={{ base: "3xl", sm: "4xl", md: "4xl" }}
                         as={"span"}
                         color={"blue.400"}
                     >
-                        {courseInfo?.brief}
+                        {courseInfo ? (
+                            courseInfo?.brief
+                        ) : (
+                            <Skeleton h={"60px"} borderRadius={"15px"}>
+                                <div>won't be visible</div>
+                            </Skeleton>
+                        )}
                     </Text>
                 </Heading>
                 <Text color={"gray.500"} maxW={"3xl"}>
@@ -136,7 +149,14 @@ export default function WatchCourse() {
                     Главы
                 </chakra.h1>
                 <SimpleGrid columns={{ base: 1 }} spacing={{ base: 5, lg: 8 }}>
-                    {chaptersElelemnt}
+                    {courseInfo
+                        ? chaptersElelemnt
+                        : [...new Array(6)].map((_, i) => (
+                              <Skeleton key={i} borderRadius={"15px"}>
+                                  <div>contents wrapped</div>
+                                  <div>won't be visible</div>
+                              </Skeleton>
+                          ))}
                 </SimpleGrid>
             </Box>
         </Container>

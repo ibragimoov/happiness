@@ -132,6 +132,7 @@ function SignIn() {
                         _hover={googleHover}
                         _active={googleActive}
                         _focus={googleActive}
+                        disabled={true}
                     >
                         <Icon as={FcGoogle} w="20px" h="20px" me="10px" />
                         Войти с помощью Google
@@ -235,16 +236,6 @@ function SignIn() {
                                     Keep me logged in
                                 </FormLabel>
                             </FormControl> */}
-                            <NavLink to="/auth/forgot-password">
-                                <Text
-                                    color={textColorBrand}
-                                    fontSize="sm"
-                                    w="124px"
-                                    fontWeight="500"
-                                >
-                                    Забыли пароль?
-                                </Text>
-                            </NavLink>
                         </Flex>
                         <Button
                             fontSize="sm"

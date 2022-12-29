@@ -37,6 +37,13 @@ import Cookies from "js-cookie";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "../../../redux/slices/user.slice";
+import {
+    Skeleton,
+    SkeletonCircle,
+    SkeletonText,
+    Stack,
+    Spinner,
+} from "@chakra-ui/react";
 
 import axios from "../../../utils/axios";
 
@@ -113,129 +120,159 @@ export default function MyCourses() {
                     gridArea={{ xl: "1 / 1 / 2 / 2  ", "2xl": "1 / 1 / 2 / 2" }}
                 >
                     <Flex direction="column">
-                        <Text
-                            mt="45px"
-                            mb="36px"
-                            color={textColor}
-                            fontSize="2xl"
-                            ms="24px"
-                            fontWeight="700"
-                        >
-                            Недавно добавленные
-                        </Text>
-                        <SimpleGrid columns={{ base: 1, md: 3 }} gap="20px">
-                            {ownCourses.length !== 0 ? (
-                                ownCourses.map((own) => (
-                                    <NavLink
-                                        key={own.course.id}
-                                        to={`/admin/watchCourse/${own.course.id}`}
-                                    >
-                                        <NFT
-                                            name={own.course.title}
-                                            author={`${own.author_name}`}
-                                            bidders={[
-                                                Avatar1,
-                                                Avatar2,
-                                                Avatar3,
-                                                Avatar4,
-                                                Avatar1,
-                                                Avatar1,
-                                                Avatar1,
-                                                Avatar1,
-                                            ]}
-                                            image={Nft1}
-                                            currentbid={own.fee}
-                                            download="#"
-                                        />
-                                    </NavLink>
-                                ))
-                            ) : (
-                                <>
-                                    <Text
-                                        mb="36px"
-                                        maxW={"300px"}
-                                        color={textColor}
-                                        fontSize="1xl"
-                                        ms="24px"
-                                        fontWeight="500"
-                                    >
-                                        У вас пока нету курсов. Вы можете
-                                        приобрести их в{" "}
-                                        <NavLink
-                                            to={"/admin/catalog"}
-                                            style={{
-                                                color: "blue",
-                                            }}
+                        {!userInfo.isTeacher && (
+                            <>
+                                <Text
+                                    mt="45px"
+                                    mb="36px"
+                                    color={textColor}
+                                    fontSize="2xl"
+                                    ms="24px"
+                                    fontWeight="700"
+                                >
+                                    Недавно добавленные
+                                </Text>
+                                <SimpleGrid
+                                    columns={{ base: 1, md: 3 }}
+                                    gap="20px"
+                                >
+                                    {ownCourses.length !== 0 ? (
+                                        ownCourses.map((own) => (
+                                            <NavLink
+                                                key={own.course.id}
+                                                to={`/admin/watchCourse/${own.course.id}`}
+                                            >
+                                                <NFT
+                                                    name={own.course.title}
+                                                    author={`${own.author_name}`}
+                                                    bidders={[
+                                                        Avatar1,
+                                                        Avatar2,
+                                                        Avatar3,
+                                                        Avatar4,
+                                                        Avatar1,
+                                                        Avatar1,
+                                                        Avatar1,
+                                                        Avatar1,
+                                                    ]}
+                                                    image={Nft1}
+                                                    currentbid={own.fee}
+                                                    download="#"
+                                                />
+                                            </NavLink>
+                                        ))
+                                    ) : ownCourses.length === 0 ? (
+                                        <Text
+                                            mb="36px"
+                                            maxW={"300px"}
+                                            color={textColor}
+                                            fontSize="1xl"
+                                            ms="24px"
+                                            fontWeight="500"
                                         >
-                                            каталоге
-                                        </NavLink>
-                                    </Text>
-                                </>
-                            )}
-                        </SimpleGrid>
-                        <Text
-                            mt="45px"
-                            mb="36px"
-                            color={textColor}
-                            fontSize="2xl"
-                            ms="24px"
-                            fontWeight="700"
-                        >
-                            Недавно созданные
-                        </Text>
-                        <SimpleGrid
-                            columns={{ base: 1, md: 3 }}
-                            gap="20px"
-                            mb={{ base: "20px", xl: "0px" }}
-                        >
-                            {createdCourses.length !== 0 ? (
-                                createdCourses.map((created) => (
-                                    <NavLink
-                                        key={created.id}
-                                        to={`/admin/watchCourse/${created.id}/edit`}
-                                    >
-                                        <NFT
-                                            name={created.title}
-                                            bidders={[
-                                                Avatar1,
-                                                Avatar2,
-                                                Avatar3,
-                                                Avatar4,
-                                                Avatar1,
-                                                Avatar1,
-                                                Avatar1,
-                                                Avatar1,
-                                            ]}
-                                            image={Nft1}
-                                            currentbid={created.fee}
-                                            download="#"
+                                            У вас пока нету курсов. Вы можете
+                                            приобрести их в{" "}
+                                            <NavLink
+                                                to={"/admin/catalog"}
+                                                style={{
+                                                    color: "blue",
+                                                }}
+                                            >
+                                                каталоге
+                                            </NavLink>
+                                        </Text>
+                                    ) : (
+                                        <Spinner
+                                            ml={"20px"}
+                                            thickness="4px"
+                                            speed="0.65s"
+                                            emptyColor="gray.200"
+                                            color="blue.500"
+                                            size="xl"
                                         />
-                                    </NavLink>
-                                ))
-                            ) : (
-                                <>
-                                    <Text
-                                        mb="36px"
-                                        maxW={"300px"}
-                                        color={textColor}
-                                        fontSize="1xl"
-                                        ms="24px"
-                                        fontWeight="500"
-                                    >
-                                        У вас пока нету созданных курсов. Вы
-                                        можете создавать их{" "}
-                                        <NavLink
-                                            to={"/admin/create-course"}
-                                            style={{
-                                                color: "blue",
-                                            }}
-                                        >
-                                            тут
-                                        </NavLink>
-                                    </Text>
-                                </>
-                            )}
-                        </SimpleGrid>
+                                    )}
+                                </SimpleGrid>
+                            </>
+                        )}
+
+                        {userInfo.isTeacher && (
+                            <>
+                                <Text
+                                    mt="45px"
+                                    mb="36px"
+                                    color={textColor}
+                                    fontSize="2xl"
+                                    ms="24px"
+                                    fontWeight="700"
+                                >
+                                    Недавно созданные
+                                </Text>
+                                <SimpleGrid
+                                    columns={{ base: 1, md: 3 }}
+                                    gap="20px"
+                                    mb={{ base: "20px", xl: "0px" }}
+                                >
+                                    {createdCourses.length !== 0 ? (
+                                        createdCourses.map((created) => (
+                                            <NavLink
+                                                key={created.id}
+                                                to={`/admin/watchCourse/${created.id}/edit`}
+                                            >
+                                                <NFT
+                                                    name={created.title}
+                                                    bidders={[
+                                                        Avatar1,
+                                                        Avatar2,
+                                                        Avatar3,
+                                                        Avatar4,
+                                                        Avatar1,
+                                                        Avatar1,
+                                                        Avatar1,
+                                                        Avatar1,
+                                                    ]}
+                                                    image={Nft1}
+                                                    currentbid={created.fee}
+                                                    download="#"
+                                                />
+                                            </NavLink>
+                                        ))
+                                    ) : createdCourses.length === 0 ? (
+                                        <>
+                                            <Text
+                                                mb="36px"
+                                                maxW={"300px"}
+                                                color={textColor}
+                                                fontSize="1xl"
+                                                ms="24px"
+                                                fontWeight="500"
+                                            >
+                                                У вас пока нету созданных
+                                                курсов. Вы можете создать первый{" "}
+                                                <NavLink
+                                                    to={"/admin/create-course"}
+                                                    style={{
+                                                        color: "blue",
+                                                    }}
+                                                >
+                                                    тут
+                                                </NavLink>
+                                            </Text>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Spinner
+                                                ml={"20px"}
+                                                thickness="4px"
+                                                speed="0.65s"
+                                                emptyColor="gray.200"
+                                                color="blue.500"
+                                                size="xl"
+                                            />
+                                        </>
+                                    )}
+                                </SimpleGrid>
+                            </>
+                        )}
                     </Flex>
                 </Flex>
             </Grid>

@@ -154,7 +154,7 @@ export default function HeaderLinks(props) {
                 >
                     <Flex jusitfy="space-between" w="100%" mb="20px">
                         <Text fontSize="md" fontWeight="600" color={textColor}>
-                            Notifications
+                            Уведомления
                         </Text>
                         <Text
                             fontSize="sm"
@@ -163,7 +163,7 @@ export default function HeaderLinks(props) {
                             ms="auto"
                             cursor="pointer"
                         >
-                            Mark all read
+                            Отметить как прочитанные
                         </Text>
                     </Flex>
                     <Flex flexDirection="column">

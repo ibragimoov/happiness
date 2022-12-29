@@ -50,7 +50,8 @@ import axios from "../../../utils/axios";
 import Statistics from "./components/Statistics";
 import Contact from "./components/Contact";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserDetails } from "../../../redux/slices/user.slice";
 
 export default function Course() {
     // Chakra Color Mode
@@ -68,6 +69,12 @@ export default function Course() {
     const { success, loading, userInfo, error } = useSelector(
         (state) => state.user
     );
+
+    const dispatch = useDispatch();
+
+    React.useEffect(() => {
+        dispatch(getUserDetails());
+    }, []);
 
     const getOneCourse = async () => {
         const config = {
@@ -157,7 +164,7 @@ export default function Course() {
                         bg={"blue.400"}
                         _hover={{ bg: "blue.500" }}
                         onClick={ownCourse}
-                        disabled={disabled}
+                        disabled={disabled || userInfo.isTeacher}
                     >
                         Подписаться
                     </Button>

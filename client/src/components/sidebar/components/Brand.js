@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 // Chakra imports
 import { Flex, useColorModeValue } from "@chakra-ui/react";
@@ -13,7 +14,9 @@ export function SidebarBrand() {
 
     return (
         <Flex align="center" direction="column">
-            <HappinessLogo h="26px" w="175px" my="32px" color={logoColor} />
+            <NavLink to={"/admin/default"}>
+                <HappinessLogo h="26px" w="175px" my="32px" color={logoColor} />
+            </NavLink>
             <HSeparator mb="20px" />
         </Flex>
     );

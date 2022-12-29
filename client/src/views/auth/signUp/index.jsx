@@ -4,7 +4,6 @@ import { NavLink, Redirect } from "react-router-dom";
 import {
     Box,
     Button,
-    Checkbox,
     Flex,
     FormControl,
     FormLabel,
@@ -17,6 +16,8 @@ import {
     Text,
     useColorModeValue,
 } from "@chakra-ui/react";
+import { Checkbox, CheckboxGroup } from "@chakra-ui/react";
+import { Switch } from "@chakra-ui/react";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -61,6 +62,7 @@ function SignIn() {
     const [lastName, setLastName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const [isTeacher, setIsTeacher] = React.useState(false);
 
     let token = Cookies.get("jwt");
 
@@ -74,7 +76,9 @@ function SignIn() {
 
     const handleSignUp = async (e) => {
         e.preventDefault();
-        dispatch(registerUser({ email, password, firstName, lastName }));
+        dispatch(
+            registerUser({ email, password, firstName, lastName, isTeacher })
+        );
         token = Cookies.get("jwt");
     };
 
@@ -137,6 +141,7 @@ function SignIn() {
                         _hover={googleHover}
                         _active={googleActive}
                         _focus={googleActive}
+                        disabled={true}
                     >
                         <Icon as={FcGoogle} w="20px" h="20px" me="10px" />
                         Войти с помощью Google
@@ -171,7 +176,7 @@ function SignIn() {
                                 fontSize="sm"
                                 ms={{ base: "0px", md: "0px" }}
                                 type="email"
-                                placeholder="mail@simmmple.com"
+                                placeholder="Эльдар"
                                 mb="24px"
                                 fontWeight="500"
                                 size="lg"
@@ -181,6 +186,7 @@ function SignIn() {
                                 }}
                             />
                         </FormControl>
+
                         <FormControl>
                             <FormLabel
                                 display="flex"
@@ -198,7 +204,7 @@ function SignIn() {
                                 fontSize="sm"
                                 ms={{ base: "0px", md: "0px" }}
                                 type="email"
-                                placeholder="mail@simmmple.com"
+                                placeholder="Ибрагимов"
                                 mb="24px"
                                 fontWeight="500"
                                 size="lg"
@@ -209,6 +215,7 @@ function SignIn() {
                             />
                         </FormControl>
                     </HStack>
+
                     <FormControl>
                         <FormLabel
                             display="flex"
@@ -276,36 +283,22 @@ function SignIn() {
                             </InputRightElement>
                         </InputGroup>
                         <Flex
-                            justifyContent="space-between"
+                            justifyContent="flex-start"
                             align="center"
                             mb="24px"
                         >
-                            {/* <FormControl display="flex" alignItems="center">
-                                <Checkbox
-                                    id="remember-login"
-                                    colorScheme="brandScheme"
-                                    me="10px"
-                                />
-                                <FormLabel
-                                    htmlFor="remember-login"
-                                    mb="0"
-                                    fontWeight="normal"
-                                    color={textColor}
-                                    fontSize="sm"
-                                >
-                                    Keep me logged in
-                                </FormLabel>
-                            </FormControl> */}
-                            {/* <NavLink to="/auth/forgot-password">
-                                <Text
-                                    color={textColorBrand}
-                                    fontSize="sm"
-                                    w="124px"
-                                    fontWeight="500"
-                                >
-                                    Забыли пароль?
-                                </Text>
-                            </NavLink> */}
+                            <Switch
+                                id="email-alerts"
+                                mr={"15px"}
+                                variant="brand"
+                                value={isTeacher}
+                                onChange={() => {
+                                    setIsTeacher((prev) => !prev);
+                                }}
+                            />
+                            <FormLabel htmlFor="email-alerts" mb="0">
+                                Я учитель
+                            </FormLabel>
                         </Flex>
                         <Button
                             fontSize="sm"
@@ -319,6 +312,7 @@ function SignIn() {
                             Зарегистрироваться
                         </Button>
                     </FormControl>
+
                     <Flex
                         flexDirection="column"
                         justifyContent="center"

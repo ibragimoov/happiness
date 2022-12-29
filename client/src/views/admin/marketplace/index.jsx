@@ -14,10 +14,10 @@ import {
 
 // Custom components
 import Banner from "views/admin/marketplace/components/Banner";
-import TableTopCreators from "views/admin/marketplace/components/TableTopCreators";
 import HistoryItem from "views/admin/marketplace/components/HistoryItem";
 import NFT from "components/card/NFT";
 import Card from "components/card/Card.js";
+import CardSkeleton from "./components/Skeleton";
 
 // Assets
 import Nft1 from "assets/img/nfts/Nft1.png";
@@ -32,8 +32,6 @@ import Avatar3 from "assets/img/avatars/avatar3.png";
 import Avatar4 from "assets/img/avatars/avatar4.png";
 
 import axios from "../../../utils/axios";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserDetails } from "../../../redux/slices/user.slice";
 import { NavLink } from "react-router-dom";
 
 export default function Marketplace() {
@@ -151,42 +149,9 @@ export default function Marketplace() {
                                 ))
                             ) : (
                                 <>
-                                    <NFT
-                                        name="ETH AI Brain"
-                                        author="By Nick Wilson"
-                                        bidders={[
-                                            Avatar1,
-                                            Avatar2,
-                                            Avatar3,
-                                            Avatar4,
-                                            Avatar1,
-                                            Avatar1,
-                                            Avatar1,
-                                            Avatar1,
-                                        ]}
-                                        image={Nft2}
-                                        currentbid="459"
-                                        download="#"
-                                        isCatalog={true}
-                                    />
-                                    <NFT
-                                        name="Mesh Gradients"
-                                        author="By Will Smith"
-                                        bidders={[
-                                            Avatar1,
-                                            Avatar2,
-                                            Avatar3,
-                                            Avatar4,
-                                            Avatar1,
-                                            Avatar1,
-                                            Avatar1,
-                                            Avatar1,
-                                        ]}
-                                        image={Nft3}
-                                        currentbid="249"
-                                        download="#"
-                                        isCatalog={true}
-                                    />
+                                    <CardSkeleton />
+                                    <CardSkeleton />
+                                    <CardSkeleton />
                                 </>
                             )}
                         </SimpleGrid>
