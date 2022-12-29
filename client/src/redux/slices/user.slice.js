@@ -113,6 +113,7 @@ export const logout = createAsyncThunk(
             };
 
             const { data } = await axios.post("/auth/logout", config);
+            Cookies.remove("jwt");
             return data;
         } catch (error) {
             if (error.response && error.response.data.message) {
